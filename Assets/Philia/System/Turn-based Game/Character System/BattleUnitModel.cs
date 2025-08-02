@@ -14,13 +14,25 @@ public class BattleUnitModel : MonoBehaviour
 
     [SerializeField] private BattleUnitData _unitData;
 
+    public int currentActionPoint;
+
+    public int hp;
+
+    public int breakLife;
+
+    public SkillAbilityBase _basicSkill;
+
+    public SkillAbilityBase _secondarySkill;
+
+    public SkillAbilityBase _ultimateSkill;
+
     public faction GetFaction() { return _faction; }
 
     public void TakeDamage(int dmg)
     {
-        _unitData.st_Health -= dmg;
+        hp -= dmg;
 
-        if (_unitData.st_Health < 0)
+        if (hp < 0)
         {
             TurnBasedManager.Instats.RemoveBattleUnitModel(this);
 
@@ -31,13 +43,31 @@ public class BattleUnitModel : MonoBehaviour
 
             return;
         }
-
-        TESTDEBUG();
     }
 
-    private void TESTDEBUG()
+    public virtual void StartRound()
     {
-        Debug.Log("남은 체력 : " + _unitData.st_Health);
+        currentActionPoint += 1;
+    }
+
+    public void RecoverHealth(int value)
+    {
+        hp += value;
+
+        if (breakLife > _unitData.st_MaxHealth)
+        {
+            breakLife = _unitData.st_MaxHealth;
+        }
+    }
+
+    public void RecoverBreak(int value)
+    {
+        breakLife += value;
+
+        if(breakLife > _unitData.st_MaxBreakLife)
+        {
+            breakLife = _unitData.st_MaxBreakLife;
+        }
     }
 }
 
@@ -45,9 +75,17 @@ public class BattleUnitModel : MonoBehaviour
 [Serializable]
 public class BattleUnitData
 {
-    public int st_Health;
-    public int st_Break;
+    public int st_MaxHealth;
+    public int st_MinHealth = 0;
 
-    public int st_MaxActionPoint;
-    public int st_StartActionPoint;
+    public int st_MaxBreakLife;
+    public int st_MinBreakLife = 0;
+
+    public struct ActionPoint
+    {
+        public int st_MaxActionPoint;
+        public int st_StartActionPoint;
+    }
+
+    ActionPoint actionPoint;
 }
