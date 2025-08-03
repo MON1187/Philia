@@ -31,7 +31,7 @@ public class SkillAbilityBase : MonoBehaviour
 {
     public Sprite icon;
 
-    BattleUnitModel _model;
+    BattleUnitModel owner;
 
     BattleUnitModel _target;
 
@@ -55,14 +55,14 @@ public class SkillAbilityBase : MonoBehaviour
             return;
         }
 
-        if(_model.currentActionPoint < _cost || _curTime < _coolTime)
+        if(owner.currentActionPoint < _cost || _curTime < _coolTime)
         {
             return;
         }
 
         _curTime = _coolTime;
 
-        _model.currentActionPoint  -= _cost;
+        owner.currentActionPoint  -= _cost;
 
         //사전 기술 사용 준비 연출
         {
