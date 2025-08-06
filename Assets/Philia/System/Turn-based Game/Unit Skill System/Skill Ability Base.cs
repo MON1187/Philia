@@ -2,31 +2,6 @@ using System.Collections;
 using UnityEditor.Playables;
 using UnityEngine;
 
-//패시브 용
- 
-    // 적중 시
-
-    // 피격 시
-
-    // 전투 시작 시
-
-    // 턴이 끝날 시
-
-    // 턴 시작 시
-
-    // 적 사망 시
-
-    // 적 제거 시
-
-
-//스킬
-
-    // 버프
-
-    // 적중 시
-
-
-
 public class SkillAbilityBase : MonoBehaviour
 {
     public Sprite icon;
@@ -43,9 +18,11 @@ public class SkillAbilityBase : MonoBehaviour
 
     public bool _isPassiveSkill = false;
 
-    public int _coolTime;
+    public int _coolTime = 0;
 
-    public int _curTime;
+    int _curTime = 0;
+
+    public int dmgRate;
 
     public void OnUseSkill()
     {
@@ -57,6 +34,7 @@ public class SkillAbilityBase : MonoBehaviour
 
         if(owner.currentActionPoint < _cost || _curTime < _coolTime)
         {
+            _curTime += 1;
             return;
         }
 
@@ -82,7 +60,7 @@ public class SkillAbilityBase : MonoBehaviour
 
         //피해 입히는 함수
         {
-            UseSkillAbilityBase();
+            UseSkillAbilityBase(_target);
         }
     }
 
@@ -91,14 +69,24 @@ public class SkillAbilityBase : MonoBehaviour
 
     }
 
-    protected virtual void UseSkillAbilityBase()
+    public void SetOwnerBattleUnitModel(BattleUnitModel owner)
     {
+        this.owner = owner;
+    }
 
+    public void SetTargetBattleUnitModel(BattleUnitModel target)
+    {
+        _target = target;
+    }
+
+    protected virtual void UseSkillAbilityBase(BattleUnitModel target)
+    {
+        target.TakeDamage(owner.GetForce());
     }
 
     protected virtual void UseSkillMotionReady()
     {
-        
+        StartCoroutine(UseSkillPlayMotion());
     }
 
     protected virtual IEnumerator UseSkillPlayMotion()
