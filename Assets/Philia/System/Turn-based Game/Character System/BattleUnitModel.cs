@@ -1,5 +1,8 @@
 using System;
+using System.Drawing;
+using System.Linq;
 using UnityEngine;
+
 
 public enum faction
 {
@@ -9,7 +12,6 @@ public enum faction
 
 public class BattleUnitModel : MonoBehaviour
 {
-
     [SerializeField] private faction _faction;
 
     [SerializeField] private BattleUnitData _unitData;
@@ -26,11 +28,29 @@ public class BattleUnitModel : MonoBehaviour
 
     public SkillAbilityBase _ultimateSkill;
 
+    public int _velocity;
+
+    private BounsState _bounsState = new BounsState();
+
     public faction GetFaction() { return _faction; }
+
+    public int GetSpeed()
+    {
+        return _unitData.st_Speed + _velocity;
+    }
 
     public void TakeDamage(int dmg)
     {
-        hp -= dmg;
+        //추가 적인 연출 용 공간 ( 예시 : 회피, 피해 절감 )
+        {
+
+        }
+   
+        //Take damage heatlh
+        hp -= dmg + (int)(dmg * (_bounsState.dmgRate * 0.01f) + _bounsState.dmg);
+
+        //Take damgae breaklife
+        breakLife -= (int)(dmg * (_bounsState.breakRate * 0.01f) + _bounsState.breakDmg);
 
         if (hp < 0)
         {
@@ -45,9 +65,70 @@ public class BattleUnitModel : MonoBehaviour
         }
     }
 
+    public int GetForce()
+    {
+        return _unitData.st_Strong + _bounsState.str;
+    }
+
+    public void firstStartRound()
+    {
+        hp = _unitData.st_MaxHealth;
+        breakLife = _unitData.st_MaxBreakLife;
+        currentActionPoint = _unitData.st_StartActionPoint;
+
+        //Set Skill Owner
+        {
+            if (_basicSkill != null)
+            {
+                _basicSkill.SetOwnerBattleUnitModel(this);
+            }
+
+            if (_secondarySkill != null)
+                _secondarySkill.SetOwnerBattleUnitModel(this);
+
+            if (_ultimateSkill != null)
+                _ultimateSkill.SetOwnerBattleUnitModel(this);
+        }
+    }
+
     public virtual void StartRound()
     {
-        currentActionPoint += 1;
+        currentActionPoint += 1 + _bounsState.point;
+
+        if (currentActionPoint > _unitData.st_MaxActionPoint)
+        {
+            currentActionPoint = _unitData.st_MaxActionPoint;
+        }
+
+        //Select Attack Target
+        {
+            BattleUnitModel[] target;
+
+            if (_faction == faction.Player)
+            {
+                target = TurnBasedManager.Instats.enemyBattleUnitList.ToArray();
+                SetTargeting(target,target.Length);
+            }
+            else if (_faction == faction.Enemy)
+            {
+                target = TurnBasedManager.Instats.playerBattleUnitList.ToArray();
+                SetTargeting(target, target.Length);
+            }
+        }
+    }
+
+    private void SetTargeting(BattleUnitModel[] target, int size)
+    {
+        int randomIndex = UnityEngine.Random.Range(0, size);
+
+        if (_basicSkill != null)
+            _basicSkill.SetTargetBattleUnitModel(target[randomIndex]);
+
+        if (_secondarySkill != null)
+            _secondarySkill.SetTargetBattleUnitModel(target[randomIndex]);
+
+        if (_ultimateSkill != null)
+            _ultimateSkill.SetTargetBattleUnitModel(target[randomIndex]);
     }
 
     public void RecoverHealth(int value)
@@ -81,11 +162,38 @@ public class BattleUnitData
     public int st_MaxBreakLife;
     public int st_MinBreakLife = 0;
 
-    public struct ActionPoint
-    {
-        public int st_MaxActionPoint;
-        public int st_StartActionPoint;
-    }
+    public int st_Speed;
 
-    ActionPoint actionPoint;
+    public int st_Strong;
+
+    public int st_MaxActionPoint;
+    public int st_StartActionPoint;
+}
+
+public class BounsState
+{
+    public int dmg;
+
+    public int breakDmg;
+
+    public int dmgRate;
+
+    public int breakRate;
+
+    public int str;
+
+    public int point;
+
+    public BounsState SetState()
+    {
+        return new BounsState()
+        {
+            dmg = dmg, 
+            breakDmg = breakDmg,
+            str = str,
+            point = point,
+            dmgRate = dmgRate,
+            breakRate = breakRate
+        };
+    }
 }
