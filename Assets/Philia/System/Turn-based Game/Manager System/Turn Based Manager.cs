@@ -9,6 +9,8 @@ public class TurnBasedManager : MonoBehaviour
 {
     public static TurnBasedManager Instats;
 
+    ItemDataAbilityBase[] itemDataAbilityBase;
+
     public enum State
     {
         Start, PlayerTurn, EnemyTurn, End
@@ -23,56 +25,110 @@ public class TurnBasedManager : MonoBehaviour
 
     bool _isEnemyLive;    
 
-    //임시 값 : 0은 플레이어, 1은 적
-    public BattleUnitModel[] characterData;
+    public List<BattleUnitModel> playerBattleUnitList = new List<BattleUnitModel>();
 
-    private List<BattleUnitModel> playerBattleUnitList = new List<BattleUnitModel>();
-
-    private List<BattleUnitModel> enemyBattleUnitList = new List<BattleUnitModel>();
+    public List<BattleUnitModel> enemyBattleUnitList = new List<BattleUnitModel>();
 
     private void Awake()
     {
         //싱글톤
         {
             Instats = this;
-
         }
+
+        _state = State.Start;
 
         //턴 시작 전 데이터 정리
         {
-            if (characterData.Length <= 0)
+            PlayerCharacterSlotManager playerCharacterSlotManager = FindAnyObjectByType<PlayerCharacterSlotManager>()?.GetComponent<PlayerCharacterSlotManager>();
+
+            CharacterSlot characterEnemySlot = FindAnyObjectByType<CharacterSlot>()?.GetComponent<CharacterSlot>();
+
+            int fastestSpeed = -999;
+
+            for (int i = 0; i < 4; i++) 
             {
-                Debug.LogError("모델 없음");
+                //List Organize
+                {
+                    if (playerCharacterSlotManager.LoadSlotUnitModelData(i) != null)
+                    {
+                        playerBattleUnitList.Add(playerCharacterSlotManager.LoadSlotUnitModelData(i));
+                        playerBattleUnitList[i].firstStartRound();
+                        //Find the fastest speed and decide which team will start first.
+                        {
+                            if (playerBattleUnitList[i].GetSpeed() > fastestSpeed)
+                            {
+                                fastestSpeed = playerBattleUnitList[i].GetSpeed();
+                                _state = State.PlayerTurn;
+                            }
+                        }
+                    }
+                    if (characterEnemySlot.LoadSlotUnitModelData(i) != null)
+                    {
+                        enemyBattleUnitList.Add(characterEnemySlot.LoadSlotUnitModelData(i));
+                        enemyBattleUnitList[i].firstStartRound();
+
+                        //Find the fastest speed and decide which team will start first.
+                        {
+                            if (enemyBattleUnitList[i].GetSpeed() > fastestSpeed)
+                            {
+                                fastestSpeed = enemyBattleUnitList[i].GetSpeed();
+                                _state = State.EnemyTurn;
+                            }
+                        }
+                    }
+                }
+
+                //Find the fastest speed and decide which team will start first.
+                {
+
+                }
+            }
+
+            //if (characterData.Length <= 0)
+            //{
+            //    Debug.LogError("모델 없음");
+            //    return;
+            //}
+
+            if(playerBattleUnitList.Count > 0)
+            {
+                _isPlayerLive = true;
+            }
+
+            if(enemyBattleUnitList.Count > 0)
+            {
+                _isEnemyLive = true;
+            }
+
+            if (!_isEnemyLive || !_isPlayerLive)
+            {
+#if UNITY_EDITOR
+                Debug.LogError($" _isEnemyLive : {_isEnemyLive} |or| _isPlayerLive : {_isPlayerLive}");
+#endif
                 return;
             }
 
-            _isPlayerLive = true;
-
-            _isEnemyLive = true;
-
-            try
-            {
-                foreach (BattleUnitModel model in characterData)
-                {
-                    if(model.GetFaction() == faction.Player)
-                    {
-                        playerBattleUnitList.Add(model);
-                    }
-                    else //Enemy
-                    {
-                        enemyBattleUnitList.Add(model);
-                    }
-                }
-            }
-            catch
-            {
-                Debug.LogError("Error");
-            }
+            //try
+            //{
+            //    foreach (BattleUnitModel model in characterData)
+            //    {
+            //        if(model.GetFaction() == faction.Player)
+            //        {
+            //            playerBattleUnitList.Add(model);
+            //        }
+            //        else //Enemy
+            //        {
+            //            enemyBattleUnitList.Add(model);
+            //        }
+            //    }
+            //}
+            //catch
+            //{
+            //    Debug.LogError("Error");
+            //}
         }
         
-        
-        _state = State.Start;
-
         BattleStart();
     }
 
@@ -80,45 +136,53 @@ public class TurnBasedManager : MonoBehaviour
     {
         //전투 시작 시 캐릭터나 등장 애니메이션 호출 용 공간
         {
-
+            
         }
 
-        //턴 넘기기
+        //턴 넘기며 시작
         {
-            _state = State.PlayerTurn;
-            Debug.Log("Start Turn : " +  _state);
+            OnRoundStart();
+        }
+    }
+
+    public void OnRoundStart()
+    {
+        if (_state == State.End)
+        {
+            EndBattle();
+        }
+
+        if (_state == State.PlayerTurn)
+        {
+            TEST_PlayerAttack();
+        }
+        else if (_state == State.EnemyTurn)
+        {
+            StartEnemyTurn();
         }
     }
 
     public void TEST_PlayerAttack()
     {
-        Debug.Log("Round");
-
         if (_state == State.End)
         {
             return;
         }
 
-        Debug.Log("공격!");
-        
         StartCoroutine(PlayerAttack());
     }
 
     IEnumerator PlayerAttack()
     {
+        playerBattleUnitList[0].StartRound();
+        
         yield return new WaitForSeconds(1);
 
         //공격 실행
 
-        int takeRandomDamage = Random.Range(1, 3);
+        playerBattleUnitList[0]._basicSkill.OnUseSkill();
 
-        characterData[1].TakeDamage(takeRandomDamage);
-
-        Debug.Log("나 의 공격! : " + takeRandomDamage);
-
-        yield return new WaitForSeconds(1);
-
-        if (!_isEnemyLive)
+        if (!_isEnemyLive || _state == State.End)
         {
             _state = State.End;
             EndBattle();
@@ -126,27 +190,25 @@ public class TurnBasedManager : MonoBehaviour
         else
         {
             _state = State.EnemyTurn;
-            StartCoroutine(EnemyTurn());
+            OnRoundStart();
         }
+    }
+
+    private void StartEnemyTurn()
+    {
+        StartCoroutine(EnemyTurn());
     }
 
     IEnumerator EnemyTurn()
     {
-        Debug.Log("적의 턴!");
+        enemyBattleUnitList[0].StartRound();
 
         yield return new WaitForSeconds(1);
 
         //공격 실행
-        int takeRandomDamage = Random.Range(1, 2);
+        enemyBattleUnitList[0]._basicSkill.OnUseSkill();
 
-        characterData[0].TakeDamage(takeRandomDamage);
-
-        Debug.Log("적 의 공격! : " + takeRandomDamage);
-
-        yield return new WaitForSeconds(1);
-
-        //
-        if (!_isPlayerLive)
+        if (!_isPlayerLive || _state == State.End)
         {
             _state = State.End;
             EndBattle();
@@ -154,15 +216,14 @@ public class TurnBasedManager : MonoBehaviour
         else
         {
             _state = State.PlayerTurn;
-
-            Debug.Log("플레이어 턴!");
+            OnRoundStart();
         }
- 
     }
 
     void EndBattle()
     {
-        Debug.Log("End Tun");
+        Debug.Log("End Game");
+        return;
     }
 
     public void RemoveBattleUnitModel(BattleUnitModel model)
@@ -170,10 +231,23 @@ public class TurnBasedManager : MonoBehaviour
         if(model.GetFaction() == faction.Player)
         {
             playerBattleUnitList.Remove(model);
+            CheckEveryoneDead(playerBattleUnitList);
         }
         else //Enemy
         {
             enemyBattleUnitList.Remove(model);
+            CheckEveryoneDead(enemyBattleUnitList);
         }
+
+    }
+
+    public void CheckEveryoneDead(List<BattleUnitModel> models)
+    {
+        if (models.Count > 0)
+        {
+            return;
+        }
+
+        _state = State.End;
     }
 }
