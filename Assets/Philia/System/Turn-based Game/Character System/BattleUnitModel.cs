@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Drawing;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -50,17 +52,19 @@ public class BattleUnitModel : MonoBehaviour
         return useSkillData;
     }
 
-    public void TakeDamage(int dmg)
+    public void TakeDamage(float dmg)
     {
-        DamagePopup.Create(transform.position, dmg, false);
-
         //추가 적인 연출 용 공간 ( 예시 : 회피, 피해 절감 )
         {
 
         }
-   
+
         //Take damage heatlh
-        hp -= dmg + (int)(dmg * (_bounsState.dmgRate * 0.01f) + _bounsState.dmg);
+        int takeDmg = (int)(dmg + (dmg * (_bounsState.dmgRate * 0.01f) + _bounsState.dmg));
+
+        DamagePopup.Create(transform.position, takeDmg, false);
+
+        hp -= takeDmg;
 
         //Take damgae breaklife
         breakLife -= (int)(dmg * (_bounsState.breakRate * 0.01f) + _bounsState.breakDmg);
@@ -234,5 +238,5 @@ public class BounsState
 public struct UseSkillData
 {
     public SkillAbilityBase useSkill;
-    public float playSkillProductionTime;
+    public float playSkillDirectingTime;
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SkillAbilityBase : MonoBehaviour
 {
-    public Sprite icon;
+    protected Sprite icon;
 
-    BattleUnitModel owner;
+    protected BattleUnitModel owner;
 
     BattleUnitModel _target;
 
@@ -18,13 +18,13 @@ public class SkillAbilityBase : MonoBehaviour
 
     public bool _isPassiveSkill = false;
 
-    public int _coolTime = 0;
+    protected int _coolTime = 0;
 
     int _curTime = 0;
 
     public int dmgRate;
 
-    public float productionTime;
+    protected float productionTime;
 
 #region Call void
  

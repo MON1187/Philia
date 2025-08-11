@@ -322,7 +322,7 @@ public class TurnBasedManager : MonoBehaviour
 
             useSkillData.useSkill.OnUseSkill();
 
-            yield return new WaitForSeconds(useSkillData.playSkillProductionTime);
+            yield return new WaitForSeconds(useSkillData.playSkillDirectingTime);
 
             if (!_isPlayerLive || _state == State.End)
             {
