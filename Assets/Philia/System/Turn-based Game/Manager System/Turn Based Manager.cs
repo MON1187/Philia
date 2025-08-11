@@ -13,7 +13,7 @@ public class TurnBasedManager : MonoBehaviour
 
     public enum State
     {
-        Start, PlayerTurn, EnemyTurn, End
+        Start, End
     }
 
     public State _state;
