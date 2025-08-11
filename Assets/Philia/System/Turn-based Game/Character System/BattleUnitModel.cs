@@ -22,7 +22,6 @@ public class BattleUnitModel : MonoBehaviour
 
     public int breakLife;
 
-    public SkillAbilityBase _basicSkill;
     public SkillAbilityBase _basicSkill;        //Normal Attack Base Skill
 
     public SkillAbilityBase _secondarySkill;    //Buf Skill
@@ -34,6 +33,8 @@ public class BattleUnitModel : MonoBehaviour
     private UseSkillData useSkillData;
 
     public int _velocity;
+
+    public bool isReady = false;
 
     private BounsState _bounsState = new BounsState();
 
@@ -103,6 +104,8 @@ public class BattleUnitModel : MonoBehaviour
 
     public virtual void StartRound()
     {
+        isReady = false;
+
         currentActionPoint += 1 + _bounsState.point;
 
         if (currentActionPoint > _unitData.st_MaxActionPoint)
