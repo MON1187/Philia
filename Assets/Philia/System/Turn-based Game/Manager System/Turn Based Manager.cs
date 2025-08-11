@@ -1,8 +1,10 @@
 using NUnit.Framework;
+using System.Buffers.Text;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class TurnBasedManager : MonoBehaviour
@@ -29,9 +31,11 @@ public class TurnBasedManager : MonoBehaviour
 
     public List<BattleUnitModel> enemyBattleUnitList = new List<BattleUnitModel>();
 
+    public List<BattleUnitModel> playTurnCharacterUnitList = new List<BattleUnitModel>();
+
     private void Awake()
     {
-        //싱글톤
+        //추상화
         {
             Instats = this;
         }
@@ -59,7 +63,6 @@ public class TurnBasedManager : MonoBehaviour
                             if (playerBattleUnitList[i].GetSpeed() > fastestSpeed)
                             {
                                 fastestSpeed = playerBattleUnitList[i].GetSpeed();
-                                _state = State.PlayerTurn;
                             }
                         }
                     }
@@ -73,7 +76,6 @@ public class TurnBasedManager : MonoBehaviour
                             if (enemyBattleUnitList[i].GetSpeed() > fastestSpeed)
                             {
                                 fastestSpeed = enemyBattleUnitList[i].GetSpeed();
-                                _state = State.EnemyTurn;
                             }
                         }
                     }
@@ -128,7 +130,9 @@ public class TurnBasedManager : MonoBehaviour
             //    Debug.LogError("Error");
             //}
         }
-        
+
+        SetBattleUnitmodelPlayTurnList();
+
         BattleStart();
     }
 
@@ -152,47 +156,121 @@ public class TurnBasedManager : MonoBehaviour
             EndBattle();
         }
 
-        if (_state == State.PlayerTurn)
-        {
-            TEST_PlayerAttack();
-        }
-        else if (_state == State.EnemyTurn)
-        {
-            StartEnemyTurn();
-        }
+        StartRoundUnitModelPlayTurnList();
+
+            //PlayerUseSkillButtonFunction.Instats.B_SetSkillIconAll();
+        StartPlayerTurn();
+        StartEnemyTurn();
     }
 
-    public void TEST_PlayerAttack()
+    private void SetBattleUnitmodelPlayTurnList()
+    {
+        //At the start, combine the lists into one, then select a turn based on speed.
+
+        for (int i = 0; i< playerBattleUnitList.Count; i++)
+            playTurnCharacterUnitList.Add(playerBattleUnitList[i]);
+
+        for (int i = 0; i < enemyBattleUnitList.Count; i++)
+            playTurnCharacterUnitList.Add(enemyBattleUnitList[i]);
+    }
+
+    private void StartRoundUnitModelPlayTurnList()
+    {
+        int listSize = playTurnCharacterUnitList.Count;
+
+        BobuleSrot(playTurnCharacterUnitList, listSize);
+    }
+
+    private void BobuleSrot(List<BattleUnitModel> list, int size)
+    {
+        int i, j;
+
+        BattleUnitModel temp;
+
+        //속도가 제일 느린 모델부터 순차적으로 배치
+        for (i = size - 1; i > 0; i--)
+        {
+            // 0 ~ (i-1)까지 반복
+            for (j = 0; j < i; j++)
+            {
+                // j번째와 j+1번째의 요소가 크기 순이 아니면 교환
+                if (list[j].GetSpeed() < list[j + 1].GetSpeed())
+                {
+                    temp = list[j];
+                    list[j] = list[j + 1];
+                    list[j + 1] = temp;
+                }
+            }
+        }
+
+        //List 뒤집기
+        list.Reverse();
+
+        ////테스트용 디버그
+        //for (i = 0; i < list.Count; i++)
+        //{
+        //    print(list[i].name);
+        //}
+    }
+
+#region Player Turn
+
+    public void StartPlayerTurn()
     {
         if (_state == State.End)
         {
             return;
         }
 
-        StartCoroutine(PlayerAttack());
+        StartCoroutine(PlayerTurn());
     }
 
-    IEnumerator PlayerAttack()
+    IEnumerator PlayerTurn()
     {
-        playerBattleUnitList[0].StartRound();
-        
-        yield return new WaitForSeconds(1);
+        //foreach (BattleUnitModel owner in playerBattleUnitList)
+        //{
+        //    owner.StartRound();
+        //}
 
-        //공격 실행
+        UnitStartRound(playerBattleUnitList);
 
-        playerBattleUnitList[0]._basicSkill.OnUseSkill();
+        PlayerUseSkillButtonFunction.Instats.SetSkillUIAll(playerBattleUnitList[0]);
 
-        if (!_isEnemyLive || _state == State.End)
+        bool isActionEnd = false;
+
+        //턴 끝났는지 체크
+        while (!isActionEnd)
         {
-            _state = State.End;
-            EndBattle();
+            bool isAllAction = true;
+
+            foreach (BattleUnitModel owner in playerBattleUnitList)
+            {
+                if (!owner.isReady)
+                {
+                    isAllAction = false;
+                    Debug.Log("! 아직 준비 안됨");
+                    break;
+                }
+            }
+            
+            if (isAllAction)
+            {
+                isActionEnd = true;
+                Debug.Log("준비 완료");
+                break;
+            }
+
+            yield return new WaitForSeconds(.25f);
         }
-        else
-        {
-            _state = State.EnemyTurn;
-            OnRoundStart();
-        }
+
+        //배틀 시작되는 연출
+
+        PlayBattleUnitSkillAll();
     }
+
+    #endregion
+
+#region Enemy Turn
 
     private void StartEnemyTurn()
     {
@@ -201,22 +279,60 @@ public class TurnBasedManager : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
-        enemyBattleUnitList[0].StartRound();
+        //Start Round
+        //enemyBattleUnitList[0].StartRound();
+        UnitStartRound(enemyBattleUnitList);
 
         yield return new WaitForSeconds(1);
 
         //공격 실행
-        enemyBattleUnitList[0]._basicSkill.OnUseSkill();
+        //enemyBattleUnitList[0]._basicSkill.OnUseSkill();
 
-        if (!_isPlayerLive || _state == State.End)
+        AutoPlayEnemyTurn();
+    }
+
+    private void AutoPlayEnemyTurn()
+    {
+        for (int i = 0; i < enemyBattleUnitList.Count; i++)
         {
-            _state = State.End;
-            EndBattle();
+            enemyBattleUnitList[i]._basicSkill.UseSkillReady();
         }
-        else
+    }
+
+#endregion
+
+    private void UnitStartRound(List <BattleUnitModel> owner)
+    {
+        foreach (BattleUnitModel model in owner)
+            model.StartRound();
+    }
+
+    private void PlayBattleUnitSkillAll()
+    {
+        StartCoroutine(OnPlayBattleUnitSkillAll());
+    }
+
+    private IEnumerator OnPlayBattleUnitSkillAll()
+    {
+        for(int i = 0; i < playTurnCharacterUnitList.Count; i++)
         {
-            _state = State.PlayerTurn;
-            OnRoundStart();
+            print(playTurnCharacterUnitList[i].name + "의 턴 진행");
+
+            UseSkillData useSkillData = playTurnCharacterUnitList[i].GetUseSkillData();
+
+            useSkillData.useSkill.OnUseSkill();
+
+            yield return new WaitForSeconds(useSkillData.playSkillProductionTime);
+
+            if (!_isPlayerLive || _state == State.End)
+            {
+                _state = State.End;
+                EndBattle();
+            }
+            else
+            {
+                OnRoundStart();
+            }
         }
     }
 
