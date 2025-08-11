@@ -45,6 +45,11 @@ public class BattleUnitModel : MonoBehaviour
         return _unitData.st_Speed + _velocity;
     }
 
+    public UseSkillData GetUseSkillData()
+    {
+        return useSkillData;
+    }
+
     public void TakeDamage(int dmg)
     {
         DamagePopup.Create(transform.position, dmg, false);
@@ -171,13 +176,6 @@ public class BattleUnitModel : MonoBehaviour
         useSkillData.useSkill = useSkill;
         useSkillData.playSkillProductionTime = time;
     }
-
-    public UseSkillData GetUseSkill()
-    {
-        return useSkillData;
-    }
-
-
 }
 
 
