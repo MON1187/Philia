@@ -71,7 +71,7 @@ public class BattleUnitModel : MonoBehaviour
 
             //죽었을 때 연출 실행
             {
-
+                StartCoroutine(DeathDirectingMotion());
             }
 
             return;
@@ -174,7 +174,14 @@ public class BattleUnitModel : MonoBehaviour
     public void SetUseSkillData(SkillAbilityBase useSkill, float time)
     {
         useSkillData.useSkill = useSkill;
-        useSkillData.playSkillProductionTime = time;
+        useSkillData.playSkillDirectingTime = time;
+    }
+
+    protected virtual IEnumerator DeathDirectingMotion()
+    {
+        yield return null;
+
+        Destroy(this);
     }
 }
 
