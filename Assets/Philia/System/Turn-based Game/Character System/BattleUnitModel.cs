@@ -23,10 +23,15 @@ public class BattleUnitModel : MonoBehaviour
     public int breakLife;
 
     public SkillAbilityBase _basicSkill;
+    public SkillAbilityBase _basicSkill;        //Normal Attack Base Skill
 
-    public SkillAbilityBase _secondarySkill;
+    public SkillAbilityBase _secondarySkill;    //Buf Skill
 
-    public SkillAbilityBase _ultimateSkill;
+    public SkillAbilityBase _ultimateSkill;     //Ultimate Skill
+
+    public SkillAbilityBase _passiveSkill;      //Passive Skill
+
+    private UseSkillData useSkillData;
 
     public int _velocity;
 
@@ -76,19 +81,24 @@ public class BattleUnitModel : MonoBehaviour
         breakLife = _unitData.st_MaxBreakLife;
         currentActionPoint = _unitData.st_StartActionPoint;
 
+
         //Set Skill Owner
         {
             if (_basicSkill != null)
-            {
                 _basicSkill.SetOwnerBattleUnitModel(this);
-            }
 
             if (_secondarySkill != null)
                 _secondarySkill.SetOwnerBattleUnitModel(this);
 
             if (_ultimateSkill != null)
                 _ultimateSkill.SetOwnerBattleUnitModel(this);
+
+            if(_passiveSkill != null)
+                _passiveSkill.SetOwnerBattleUnitModel(this);
         }
+
+        if (_passiveSkill != null)
+            _passiveSkill.SetPassiveAbilitySkill(); 
     }
 
     public virtual void StartRound()
