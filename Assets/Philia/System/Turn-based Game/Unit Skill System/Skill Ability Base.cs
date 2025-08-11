@@ -24,11 +24,15 @@ public class SkillAbilityBase : MonoBehaviour
 
     public int dmgRate;
 
+    public float productionTime;
+
+#region Call void
+ 
     public void OnUseSkill()
     {
         if (_isPassiveSkill)
         {
-            UsePassiveSkill();
+            UsePassiveAbilitySkill();
             return;
         }
 
@@ -64,6 +68,14 @@ public class SkillAbilityBase : MonoBehaviour
         }
     }
 
+    public void UseSkillReady()
+    {
+        owner.isReady = true;
+
+        owner.SetUseSkillData(this, productionTime);
+    }
+
+#endregion
     protected virtual void UseSkillEffectAbilityBase()
     {
 
