@@ -47,6 +47,8 @@ public class BattleUnitModel : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
+        DamagePopup.Create(transform.position, dmg, false);
+
         //추가 적인 연출 용 공간 ( 예시 : 회피, 피해 절감 )
         {
 
