@@ -163,6 +163,19 @@ public class BattleUnitModel : MonoBehaviour
             breakLife = _unitData.st_MaxBreakLife;
         }
     }
+
+    public void SetUseSkillData(SkillAbilityBase useSkill, float time)
+    {
+        useSkillData.useSkill = useSkill;
+        useSkillData.playSkillProductionTime = time;
+    }
+
+    public UseSkillData GetUseSkill()
+    {
+        return useSkillData;
+    }
+
+
 }
 
 
@@ -209,4 +222,10 @@ public class BounsState
             breakRate = breakRate
         };
     }
+}
+
+public struct UseSkillData
+{
+    public SkillAbilityBase useSkill;
+    public float playSkillProductionTime;
 }
