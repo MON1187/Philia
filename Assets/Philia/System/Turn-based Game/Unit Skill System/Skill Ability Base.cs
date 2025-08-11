@@ -106,7 +106,12 @@ public class SkillAbilityBase : MonoBehaviour
         yield return null;
     }
 
-    protected virtual void UsePassiveSkill()
+    public virtual void SetPassiveAbilitySkill()
+    {
+
+    }
+
+    protected virtual void UsePassiveAbilitySkill()
     {
 
     }
