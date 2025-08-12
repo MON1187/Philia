@@ -111,6 +111,7 @@ public class BattleUnitModel : MonoBehaviour
 
         if (_passiveSkill != null)
             _passiveSkill.SetPassiveAbilitySkill(); 
+        ApplyStateBouns(_bounsState);
     }
 
     public virtual void StartRound()
@@ -186,6 +187,16 @@ public class BattleUnitModel : MonoBehaviour
         yield return null;
 
         Destroy(this);
+    }
+
+    public void ApplyStateBouns(BounsState state)
+    {
+        _bounsState.dmg += state.dmg;
+        _bounsState.breakDmg += state.breakDmg;
+        _bounsState.dmgRate += state.dmgRate;
+        _bounsState.breakRate += state.breakRate;
+        _bounsState.str += state.str;
+        _bounsState.point += state.point;
     }
 }
 
