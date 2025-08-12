@@ -93,7 +93,7 @@ public class SkillAbilityBase : MonoBehaviour
 
     protected virtual void UseSkillAbilityBase(BattleUnitModel target)
     {
-        target.TakeDamage(owner.GetForce());
+        owner.InflictDamage(owner.GetForce(), target);
     }
 
     protected virtual void UseSkillMotionReady()
