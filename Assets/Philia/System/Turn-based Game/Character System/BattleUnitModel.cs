@@ -60,14 +60,14 @@ public class BattleUnitModel : MonoBehaviour
         }
 
         //Take damage heatlh
-        int takeDmg = (int)(dmg + (dmg * (_bounsState.dmgRate * 0.01f) + _bounsState.dmg));
+        int takeDmg = (int)dmg;
 
         DamagePopup.Create(transform.position, takeDmg, false);
 
         hp -= takeDmg;
 
         //Take damgae breaklife
-        breakLife -= (int)(dmg * (_bounsState.breakRate * 0.01f) + _bounsState.breakDmg);
+        //breakLife -= (int)(dmg * (_bounsState.breakRate * 0.01f) + _bounsState.breakDmg);
 
         if (hp < 0)
         {
@@ -80,6 +80,13 @@ public class BattleUnitModel : MonoBehaviour
 
             return;
         }
+    }
+
+    public void InflictDamage(float force, BattleUnitModel target)
+    {
+        float dmg = (force + (force * (_bounsState.dmgRate * 0.01f) + _bounsState.dmg));
+
+        target.TakeDamage(dmg);
     }
 
     public int GetForce()
@@ -110,7 +117,8 @@ public class BattleUnitModel : MonoBehaviour
         }
 
         if (_passiveSkill != null)
-            _passiveSkill.SetPassiveAbilitySkill(); 
+            _passiveSkill.SetPassiveAbilitySkill();
+
         ApplyStateBouns(_bounsState);
     }
 
