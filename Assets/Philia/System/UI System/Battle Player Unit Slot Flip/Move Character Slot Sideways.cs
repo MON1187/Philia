@@ -20,16 +20,22 @@ public class MoveCharacterSlotSideways : MonoBehaviour
     int size {
         get => TurnBasedManager.Instats.playerBattleUnitList.Count - 1;
     }
+
+    private void Start()
+    {
+        SetHideCharacterImage();
+    }
+
     void Update()
     {
-        // ï¿½å·¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // µå·¡±× ½ÃÀÛ
         if (Input.GetMouseButtonDown(0))
         {
             startPos = Input.mousePosition;
             isDragging = true;
         }
 
-        // ï¿½å·¡ï¿½ï¿½ ï¿½ï¿½
+        // µå·¡±× Áß
         if (isDragging && Input.GetMouseButton(0) && !isSlotMove)
         {
             Vector2 currentPos = Input.mousePosition;
@@ -37,7 +43,7 @@ public class MoveCharacterSlotSideways : MonoBehaviour
 
             bool isRight = direction < startPos.x;
 
-            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+            //¿¬Ãâ °ø°£
             {
                 if (size > 0) { 
                     if (!isSlotMove && Mathf.Abs(direction) > 250f)
@@ -50,7 +56,7 @@ public class MoveCharacterSlotSideways : MonoBehaviour
             }
         }
 
-        // ï¿½å·¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // µå·¡±× Á¾·á
         if (Input.GetMouseButtonUp(0))
         {
             isDragging = false;
@@ -131,3 +137,44 @@ public class MoveCharacterSlotSideways : MonoBehaviour
                 return true;
         }
     }
+
+    //First moveing character hide and next character call see.
+    private void OnHideCharacterImage()
+    {
+        StartCoroutine(HideCharacterImage());
+    }
+
+    private IEnumerator HideCharacterImage()
+    {
+        float time = 1;
+
+        float curTime = 0;
+
+        yield return null;
+    }
+
+    //First character excepiton and remainder character hide
+    private void SetHideCharacterImage()
+    {
+        Image[] character = new Image[size -1];
+        
+        //Get image work
+        {
+            for(int i = 1; i < size; i++)
+            {
+                character[i - 1] = TurnBasedManager.Instats.playerBattleUnitList[i].gameObject.GetComponent<Image>();
+            }
+        }
+
+        //hide image work
+        {
+            foreach(Image image in character)
+            {
+                Color color = image.color;
+                color.a = 0;
+                
+                image.color = color;
+            }
+        }
+    }
+}
