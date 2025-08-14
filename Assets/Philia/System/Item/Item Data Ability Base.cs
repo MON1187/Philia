@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum itemType
 {
@@ -24,19 +25,47 @@ public class ItemDataAbilityBase : MonoBehaviour
 
     public itemRating _rating;
 
-    public int _value;
+    public Sprite _itemIcon;
 
-    BattleUnitModel owner;
+    public string _itemName;
 
-    public Sprite _sprite;
+    public string _itemDescription;
 
-    public virtual void ItemPassiveActivate()
+    public bool isPassive;
+
+    public int _pricec;
+
+    protected BattleUnitModel owner;
+
+    public BattleUnitModel _battleUnit;
+
+    public void SetOwnerBattleUnitModel(BattleUnitModel _owner)
+    {
+        owner = _owner;
+    }
+
+    public void ItemPassiveActivate()
     {
         ItemPassiveAbilityBase();
     }
 
-    public virtual void ItemPassiveAbilityBase() 
+    protected virtual void ItemPassiveAbilityBase() 
     { 
     
+    }
+
+    public void OnItemBuffer()
+    {
+        ItemBufferAblilty();
+    }
+
+    protected virtual void ItemBufferAblilty()
+    {
+
+    }
+
+    public Sprite GetItemAbilityIcon()
+    {
+        return _itemIcon;
     }
 }
