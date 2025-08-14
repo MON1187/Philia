@@ -24,6 +24,8 @@ public class SkillAbilityBase : MonoBehaviour
 
     public int dmgRate;
 
+    public string explanation;
+
     protected float productionTime;
 
 #region Call void
