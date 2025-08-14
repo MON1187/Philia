@@ -40,6 +40,8 @@ public class BattleUnitModel : MonoBehaviour
 
     private BounsState _bounsState = new BounsState();
 
+    public ItemDataAbilityBase[] itemImplement;
+
     public faction GetFaction() { return _faction; }
 
     public int GetSpeed()
