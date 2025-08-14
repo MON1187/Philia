@@ -78,6 +78,7 @@ public class SkillAbilityBase : MonoBehaviour
     }
 
 #endregion
+
     protected virtual void UseSkillEffectAbilityBase()
     {
 

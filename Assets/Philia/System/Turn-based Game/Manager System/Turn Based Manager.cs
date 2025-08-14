@@ -248,7 +248,7 @@ public class TurnBasedManager : MonoBehaviour
                 if (!owner.isReady)
                 {
                     isAllAction = false;
-                    Debug.Log("! 아직 준비 안됨");
+                    //Debug.Log("! 아직 준비 안됨");
                     break;
                 }
             }
@@ -256,7 +256,7 @@ public class TurnBasedManager : MonoBehaviour
             if (isAllAction)
             {
                 isActionEnd = true;
-                Debug.Log("준비 완료");
+                //Debug.Log("준비 완료");
                 break;
             }
 
