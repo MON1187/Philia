@@ -23,6 +23,7 @@ public class MoveCharacterSlotSideways : MonoBehaviour
 
     private void Start()
     {
+        if(size != 0)
         SetHideCharacterImage();
     }
 
