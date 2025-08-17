@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Drawing;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public enum faction
@@ -42,7 +40,13 @@ public class BattleUnitModel : MonoBehaviour
 
     public ItemDataAbilityBase[] itemImplement;
 
+    [SerializeField] private Sprite _atmosphericSprite;
+
+    [SerializeField] private Sprite _battleSprite;
+
     public faction GetFaction() { return _faction; }
+
+    public BattleUnitData GetUnitData() { return _unitData; }
 
     public int GetSpeed()
     {
@@ -208,12 +212,20 @@ public class BattleUnitModel : MonoBehaviour
         _bounsState.str += state.str;
         _bounsState.point += state.point;
     }
+
+    public Sprite GetAtmosphericSprite() { return _atmosphericSprite; }
+
+    public Sprite GetBattleSprite() { return _battleSprite; }
 }
 
 
 [Serializable]
 public class BattleUnitData
 {
+    public int id = 10000;
+
+    public string name;
+
     public int st_MaxHealth;
     public int st_MinHealth = 0;
 
