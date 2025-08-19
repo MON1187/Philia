@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,22 +17,44 @@ public class Node : MonoBehaviour
 
     public string _name;
 
-    public int _loadBaatleSceneId;
+    public int _loadBattleSceneId;
 
-    public bool _isAvailability = false;
+    private bool _isAvailability = false;
+
+    [SerializeField] private bool isFrist = false;
 
     public Node[] _nextNodes;
 
     private Node[] _currentNodes;
 
+    [SerializeField]private Node _previousNodes;
+
     private void Start()
     {
         _myButton = GetComponent<Button>();
+        {
+            if (isFrist)
+                FirstSettingNode();
+            else
+                _myButton.onClick.AddListener(CheckWhetherMove);
+        }
+    }
+     
+    private void FirstSettingNode()
+    {
+        NodeSystem.Instance.SetPlayerMoveMark(this.gameObject.transform);
 
-        _myButton.onClick.AddListener(Test);
+        _isAvailability = false;
+        
+        foreach (Node node in _nextNodes)
+        {
+            node.GetPreviousNode(this);
+            node._isAvailability = true;
+        }
     }
 
-    void Test()
+
+    void NodeActivation()
     {
         if (!_isAvailability)
             return;
@@ -40,13 +63,29 @@ public class Node : MonoBehaviour
 
         //전투 씬으로 넘어가는 코드 작성
 
+    }
 
-        //전투 과정이 끝난 다음, 승리시 아래 코드 실행
-        //패배 시 함수 종료.
+    private void GetDeactivateNodes(Node[] _curNodes)
+    {
+        for(int i = 0; i < _curNodes.Length; i++)
+        {
+            _curNodes[i]._currentNodes = new Node[_curNodes.Length];
+
+            _curNodes[i]._currentNodes = _curNodes;
+        }
+    }
+
+    /// <summary>
+    /// After the battle process is over, if you win, run the code below
+    /// Function terminates upon defeat.
+    /// </summary>
+    private void NodeUpdate()
+    {
         if (_isAvailability)
         {
             foreach (Node node in _nextNodes)
             {
+                node.GetPreviousNode(this);
                 node._isAvailability = true;
             }
             print("ad");
@@ -62,14 +101,41 @@ public class Node : MonoBehaviour
         }
     }
 
-    private void GetDeactivateNodes(Node[] _curNodes)
-    {
-        for(int i = 0; i < _curNodes.Length; i++)
-        {
-            _curNodes[i]._currentNodes = new Node[_curNodes.Length];
 
-            _curNodes[i]._currentNodes = _curNodes;
+    #region A function that calls the next node code from the current node
+
+    public void GetPreviousNode(Node previousNode)
+    {
+        _previousNodes = previousNode;
+    }
+
+    public void CheckWhetherMove()
+    {
+        if (!_isAvailability)
+            return;
+
+        NodeSystem.Instance.OnPlayerMoveMark(this.transform);
+    }
+
+    public void OnBackMoveMark(Transform playerMark)
+    {
+        StartCoroutine(BackMoveMark(playerMark));
+    }
+
+    private IEnumerator BackMoveMark(Transform playerMark)
+    {
+        float time = 0;
+
+        if(time < 0)
+        {
+            time += Time.deltaTime;
+
+            playerMark.position = Vector3.Lerp(playerMark.position, _previousNodes.transform.position,time);
+
+            yield return null;
         }
     }
+
+    #endregion
 }
 
