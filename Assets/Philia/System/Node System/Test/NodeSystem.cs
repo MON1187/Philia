@@ -15,19 +15,44 @@ public class NodeSystem : MonoBehaviour
 
     public Node _currentlyNode;
 
+    private Node _temporaryStorageNode;
+
     [SerializeField] private Transform playerNodeMark;
 
+    //public bool nextMoveActivateCheck;
 
     private void Awake()
     {
         Instance = this;        
     }
 
+    //임시 테스트 업데이트
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Alpha1))
+        {
+            OnSettingsRunningEvent();
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha2))
+        {
+            CheckNextMoveActivate(true);
+        }
+    }
+
+    #region Call from node
     public void UpdateCurrentNodeData(Node node)
     {
         _currentlyNode = node;
     }
 
+    public void GetTemporaryStorageNode(Node node)
+    {
+        _temporaryStorageNode = node;
+    }
+    #endregion
+
+#region Mark Function
     public void SetPlayerMoveMark(Transform pitch)
     {
         playerNodeMark.position = pitch.position;
@@ -50,4 +75,26 @@ public class NodeSystem : MonoBehaviour
             yield return null;
         }
     }
+    #endregion
+
+#region Before/after event execution
+
+    //After
+    public void OnSettingsRunningEvent()
+    {
+        _currentlyNode = _temporaryStorageNode;
+
+        _temporaryStorageNode = null;
+    }
+
+    //Before
+    public void CheckNextMoveActivate(bool isActive)
+    {
+        if (isActive)
+        {
+            //다음 노드로 이동하는 코드,
+            _currentlyNode.OnNextMoveNode();
+        }
+    }
+#endregion
 }
