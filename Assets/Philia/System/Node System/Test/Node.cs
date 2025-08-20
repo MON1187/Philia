@@ -21,13 +21,15 @@ public class Node : MonoBehaviour
 
     private bool _isAvailability = false;
 
-    [SerializeField] private bool isFrist = false;
+    [SerializeField] 
+    private bool isFrist = false;
 
     public Node[] _nextNodes;
 
     private Node[] _currentNodes;
 
-    [SerializeField]private Node _previousNodes;
+    [SerializeField]
+    private Node _previousNodes;
 
     private void Start()
     {
@@ -43,6 +45,8 @@ public class Node : MonoBehaviour
     private void FirstSettingNode()
     {
         NodeSystem.Instance.SetPlayerMoveMark(this.gameObject.transform);
+
+        NodeSystem.Instance.UpdateCurrentNodeData(this);
 
         _isAvailability = false;
         
@@ -92,8 +96,9 @@ public class Node : MonoBehaviour
         }
 
         {
-            this._isAvailability = false;
+            _previousNodes._isAvailability = false;
 
+            //여기가 문제로 보임
             foreach (Node node in _currentNodes)
             {
                 node._isAvailability = false;
@@ -115,6 +120,8 @@ public class Node : MonoBehaviour
             return;
 
         NodeSystem.Instance.OnPlayerMoveMark(this.transform);
+
+        NodeSystem.Instance.GetTemporaryStorageNode(this);
     }
 
     public void OnBackMoveMark(Transform playerMark)
@@ -134,6 +141,13 @@ public class Node : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void OnNextMoveNode()
+    {
+        NodeUpdate();
+
+        _previousNodes.NodeActivation();
     }
 
     #endregion
