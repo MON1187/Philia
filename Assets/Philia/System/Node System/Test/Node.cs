@@ -26,7 +26,7 @@ public class Node : MonoBehaviour
 
     public Node[] _nextNodes;
 
-    private Node[] _currentNodes;
+    [SerializeField] private Node[] _currentNodes;
 
     [SerializeField]
     private Node _previousNodes;
@@ -96,6 +96,7 @@ public class Node : MonoBehaviour
         }
 
         {
+            if(_previousNodes != null)
             _previousNodes._isAvailability = false;
 
             //여기가 문제로 보임
