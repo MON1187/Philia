@@ -115,6 +115,7 @@ public class Node : MonoBehaviour
         _previousNodes = previousNode;
     }
 
+    //Calls the function for the first time on all nodes except the current node.
     public void CheckWhetherMove()
     {
         if (!_isAvailability)

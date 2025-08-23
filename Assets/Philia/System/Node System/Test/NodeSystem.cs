@@ -19,11 +19,16 @@ public class NodeSystem : MonoBehaviour
 
     [SerializeField] private Transform playerNodeMark;
 
-    //public bool nextMoveActivateCheck;
+    //public bool nextMoveActivateCheck;'
+
+    [SerializeField] private GameObject nodeDescriptionOBj;
 
     private void Awake()
     {
-        Instance = this;        
+        Instance = this;    
+        
+        if(nodeDescriptionOBj != null && nodeDescriptionOBj.gameObject.activeSelf == false)
+            nodeDescriptionOBj.gameObject.SetActive(false);
     }
 
     //임시 테스트 업데이트
@@ -32,15 +37,11 @@ public class NodeSystem : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Alpha1))
         {
-            OnSettingsRunningEvent();
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha2))
-        {
-            CheckNextMoveActivate(true);
+            B_NodeDescriptionStartEvent();
         }
     }
 
-    #region Call from node
+#region Call from node
     public void UpdateCurrentNodeData(Node node)
     {
         _currentlyNode = node;
@@ -74,10 +75,13 @@ public class NodeSystem : MonoBehaviour
             playerNodeMark.position = Vector3.Lerp(playerNodeMark.position, targetPos.position, time);
             yield return null;
         }
+
+        //Passing information about the node and activating the confirmation board
+        ActivateNodeInformation();
     }
     #endregion
 
-#region Before/after event execution
+    #region Before/after event execution
 
     //After
     public void OnSettingsRunningEvent()
@@ -95,6 +99,33 @@ public class NodeSystem : MonoBehaviour
             //다음 노드로 이동하는 코드,
             _currentlyNode.OnNextMoveNode();
         }
+    }
+    #endregion
+
+
+#region
+    
+    private void ActivateNodeInformation()
+    {
+        nodeDescriptionOBj.gameObject.SetActive(true);
+    }
+#endregion
+
+
+#region 
+    public void B_NodeDescriptionStartEvent()
+    {
+        //Event Start Button Code
+        OnSettingsRunningEvent();
+
+        CheckNextMoveActivate(this);
+
+        nodeDescriptionOBj.SetActive(false);
+    }
+
+    public void B_NodeDescriprtionCheckEvent()
+    {
+
     }
 #endregion
 }

@@ -175,6 +175,7 @@ MonoBehaviour:
   isFrist: 0
   _nextNodes:
   - {fileID: 1506292652}
+  _currentNodes: []
   _previousNodes: {fileID: 0}
 --- !u!114 &5405694
 MonoBehaviour:
@@ -314,6 +315,7 @@ MonoBehaviour:
   isFrist: 0
   _nextNodes:
   - {fileID: 2056317660}
+  _currentNodes: []
   _previousNodes: {fileID: 0}
 --- !u!114 &141399415
 MonoBehaviour:
@@ -665,6 +667,7 @@ MonoBehaviour:
   _nextNodes:
   - {fileID: 1693484070}
   - {fileID: 432761855}
+  _currentNodes: []
   _previousNodes: {fileID: 0}
 --- !u!114 &413093179
 MonoBehaviour:
@@ -804,6 +807,7 @@ MonoBehaviour:
   isFrist: 0
   _nextNodes:
   - {fileID: 141399414}
+  _currentNodes: []
   _previousNodes: {fileID: 0}
 --- !u!114 &432761856
 MonoBehaviour:
@@ -1406,6 +1410,7 @@ MonoBehaviour:
   _nextNodes:
   - {fileID: 1523140951}
   - {fileID: 413093178}
+  _currentNodes: []
   _previousNodes: {fileID: 0}
 --- !u!114 &989345679
 MonoBehaviour:
@@ -1828,6 +1833,7 @@ MonoBehaviour:
   - {fileID: 2056317660}
   _currentlyNode: {fileID: 0}
   playerNodeMark: {fileID: 759403366}
+  nodeDescriptionOBj: {fileID: 479412231}
 --- !u!4 &1303897861
 Transform:
   m_ObjectHideFlags: 0
@@ -1889,6 +1895,7 @@ GameObject:
   - component: {fileID: 1414409349}
   - component: {fileID: 1414409351}
   - component: {fileID: 1414409350}
+  - component: {fileID: 1414409352}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1953,6 +1960,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414409348}
   m_CullTransparentMesh: 1
+--- !u!114 &1414409352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414409348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1414409350}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1303897860}
+        m_TargetAssemblyTypeName: NodeSystem, Assembly-CSharp
+        m_MethodName: B_NodeDescriptionStartEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1506292650
 GameObject:
   m_ObjectHideFlags: 0
@@ -2009,6 +2072,7 @@ MonoBehaviour:
   isFrist: 0
   _nextNodes:
   - {fileID: 2056317660}
+  _currentNodes: []
   _previousNodes: {fileID: 0}
 --- !u!114 &1506292653
 MonoBehaviour:
@@ -2148,6 +2212,7 @@ MonoBehaviour:
   isFrist: 0
   _nextNodes:
   - {fileID: 5405693}
+  _currentNodes: []
   _previousNodes: {fileID: 0}
 --- !u!114 &1523140952
 MonoBehaviour:
@@ -2425,6 +2490,7 @@ MonoBehaviour:
   _nextNodes:
   - {fileID: 1506292652}
   - {fileID: 141399414}
+  _currentNodes: []
   _previousNodes: {fileID: 0}
 --- !u!114 &1693484071
 MonoBehaviour:
@@ -2774,6 +2840,7 @@ MonoBehaviour:
   _loadBattleSceneId: 0
   isFrist: 0
   _nextNodes: []
+  _currentNodes: []
   _previousNodes: {fileID: 0}
 --- !u!114 &2056317661
 MonoBehaviour:
