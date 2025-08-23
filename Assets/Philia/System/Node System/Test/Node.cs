@@ -49,7 +49,9 @@ public class Node : MonoBehaviour
         NodeSystem.Instance.UpdateCurrentNodeData(this);
 
         _isAvailability = false;
-        
+
+        GetDeactivateNodes(_nextNodes);
+
         foreach (Node node in _nextNodes)
         {
             node.GetPreviousNode(this);
@@ -64,9 +66,6 @@ public class Node : MonoBehaviour
             return;
 
         GetDeactivateNodes(_nextNodes);
-
-        //전투 씬으로 넘어가는 코드 작성
-
     }
 
     private void GetDeactivateNodes(Node[] _curNodes)
@@ -99,7 +98,6 @@ public class Node : MonoBehaviour
             if(_previousNodes != null)
             _previousNodes._isAvailability = false;
 
-            //여기가 문제로 보임
             foreach (Node node in _currentNodes)
             {
                 node._isAvailability = false;
@@ -147,6 +145,8 @@ public class Node : MonoBehaviour
 
     public void OnNextMoveNode()
     {
+        NodeActivation();
+
         NodeUpdate();
 
         _previousNodes.NodeActivation();
