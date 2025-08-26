@@ -23,6 +23,8 @@ public class NodeSystem : MonoBehaviour
 
     [SerializeField] private GameObject nodeDescriptionOBj;
 
+    bool nodsIsMoveing = false;
+
     private void Awake()
     {
         Instance = this;
@@ -51,7 +53,15 @@ public class NodeSystem : MonoBehaviour
     {
         _temporaryStorageNode = node;
     }
-    #endregion
+
+    public bool NodeIsMoveing()
+    {
+        return nodsIsMoveing;
+    }
+
+
+
+#endregion
 
 #region Mark Function
     public void SetPlayerMoveMark(Transform pitch)
@@ -66,8 +76,11 @@ public class NodeSystem : MonoBehaviour
 
     private IEnumerator PlayerMoveMark(Transform targetPos)
     {
+        nodsIsMoveing = true;
+
         float time = 0;
 
+        ActivateNodeInformation();
         while(time < 1)
         {
             time += Time.deltaTime;
@@ -77,7 +90,7 @@ public class NodeSystem : MonoBehaviour
         }
 
         //Passing information about the node and activating the confirmation board
-        ActivateNodeInformation();
+        nodsIsMoveing = false;
     }
     #endregion
 

@@ -116,7 +116,7 @@ public class Node : MonoBehaviour
     //Calls the function for the first time on all nodes except the current node.
     public void CheckWhetherMove()
     {
-        if (!_isAvailability)
+        if (!_isAvailability || NodeSystem.Instance.NodeIsMoveing())
             return;
 
         NodeSystem.Instance.OnPlayerMoveMark(this.transform);
