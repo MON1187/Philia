@@ -25,10 +25,10 @@ public class NodeSystem : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;    
-        
-        if(nodeDescriptionOBj != null && nodeDescriptionOBj.gameObject.activeSelf == false)
-            nodeDescriptionOBj.gameObject.SetActive(false);
+        Instance = this;
+
+        if(nodeDescriptionOBj != null && nodeDescriptionOBj.activeSelf == true)
+            nodeDescriptionOBj.SetActive(false);
     }
 
     //임시 테스트 업데이트
