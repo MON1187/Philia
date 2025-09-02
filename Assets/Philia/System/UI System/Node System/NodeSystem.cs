@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Dynamic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 // Script create a my mistake name, not normal name is 'Manager' as 'NodeSystem'
 public class NodeSystem : MonoBehaviour
@@ -19,18 +21,30 @@ public class NodeSystem : MonoBehaviour
 
     [SerializeField] private Transform playerNodeMark;
 
+    [SerializeField] private Button currentNodeFunctionButton; //After selecting a node, a button to decide whether to execute the event for that node.
+
     //public bool nextMoveActivateCheck;'
 
     [SerializeField] private GameObject nodeDescriptionOBj;
 
     bool nodsIsMoveing = false;
 
+    //Store Obj
+    [SerializeField] private GameObject storeCanvas;
+
+    private StoreSystem storeSystem;
+
+
+
     private void Awake()
     {
         Instance = this;
 
-        if(nodeDescriptionOBj != null && nodeDescriptionOBj.activeSelf == true)
+        if (nodeDescriptionOBj != null && nodeDescriptionOBj.activeSelf == true)
             nodeDescriptionOBj.SetActive(false);
+         
+        if (storeCanvas != null)
+            storeSystem = storeCanvas.GetComponent<StoreSystem>();
     }
 
     //임시 테스트 업데이트
@@ -52,6 +66,14 @@ public class NodeSystem : MonoBehaviour
     public void GetTemporaryStorageNode(Node node)
     {
         _temporaryStorageNode = node;
+
+        if(currentNodeFunctionButton!=null)
+        {
+            //button event set
+            currentNodeFunctionButton.onClick.RemoveAllListeners();
+
+            currentNodeFunctionButton.onClick.AddListener(_temporaryStorageNode.LoadEvnetNode);
+        }
     }
 
     public bool NodeIsMoveing()
@@ -59,7 +81,10 @@ public class NodeSystem : MonoBehaviour
         return nodsIsMoveing;
     }
 
-
+    public void OnStoreEvent()
+    {
+        storeSystem.ResetItemDisplaySlot();
+    }
 
 #endregion
 
@@ -94,7 +119,7 @@ public class NodeSystem : MonoBehaviour
     }
     #endregion
 
-    #region Before/after event execution
+#region Before/after event execution
 
     //After
     public void OnSettingsRunningEvent()
@@ -113,17 +138,14 @@ public class NodeSystem : MonoBehaviour
             _currentlyNode.OnNextMoveNode();
         }
     }
-    #endregion
-
+#endregion
 
 #region
-    
     private void ActivateNodeInformation()
     {
         nodeDescriptionOBj.gameObject.SetActive(true);
     }
 #endregion
-
 
 #region 
     public void B_NodeDescriptionStartEvent()

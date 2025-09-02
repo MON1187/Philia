@@ -1,17 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 enum NodeType
 {
-    A,
-    B,
-    C
+    BattleEvent,
+    StoreEvent,
+    RandomEvent,
+    RestEvenet
 };
 
 public class Node : MonoBehaviour
 {
-    //NodeType _nodeType;
+    [SerializeField] NodeType _nodeType;
 
     private Button _myButton;
 
@@ -58,7 +60,6 @@ public class Node : MonoBehaviour
             node._isAvailability = true;
         }
     }
-
 
     void NodeActivation()
     {
@@ -153,5 +154,26 @@ public class Node : MonoBehaviour
     }
 
     #endregion
-}
 
+    #region
+    public void LoadEvnetNode()
+    {
+        if (_nodeType == NodeType.BattleEvent)
+        {
+            SceneManager.LoadSceneAsync("BattleScene_" + _loadBattleSceneId);
+        }
+        else if (_nodeType == NodeType.StoreEvent)
+        {
+            NodeSystem.Instance.OnStoreEvent();
+        }
+        else if (_nodeType == NodeType.RandomEvent)
+        {
+
+        }
+        else if (_nodeType == NodeType.RestEvenet)
+        {
+
+        }
+    }
+    #endregion
+}
