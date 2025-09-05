@@ -127,21 +127,29 @@ public class Node : MonoBehaviour
 
     public void OnBackMoveMark(Transform playerMark)
     {
+        Debug.Log("Ready Back Move");
+
         StartCoroutine(BackMoveMark(playerMark));
     }
 
     private IEnumerator BackMoveMark(Transform playerMark)
     {
+        NodeSystem.Instance.SetIsMarkNodeMoveing(true);
+
         float time = 0;
 
-        if(time < 0)
+        while (time < 1)
         {
             time += Time.deltaTime;
 
-            playerMark.position = Vector3.Lerp(playerMark.position, _previousNodes.transform.position,time);
+            Debug.Log(playerMark);
+
+            playerMark.position = Vector3.Lerp(playerMark.position, this.transform.position,time);
 
             yield return null;
         }
+
+        NodeSystem.Instance.SetIsMarkNodeMoveing(false);
     }
 
     public void OnNextMoveNode()

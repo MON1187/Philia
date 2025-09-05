@@ -15,7 +15,7 @@ public class NodeSystem : MonoBehaviour
 
     public Node[] _node;
 
-    public Node _currentlyNode;
+    private Node _currentlyNode;
 
     private Node _temporaryStorageNode;
 
@@ -89,6 +89,8 @@ public class NodeSystem : MonoBehaviour
 #endregion
 
 #region Mark Function
+
+    private bool isMarkNodeMoveing;
     public void SetPlayerMoveMark(Transform pitch)
     {
         playerNodeMark.position = pitch.position;
@@ -117,7 +119,26 @@ public class NodeSystem : MonoBehaviour
         //Passing information about the node and activating the confirmation board
         nodsIsMoveing = false;
     }
-    #endregion
+
+    public void OnPlayerMoveBackMark()
+    {
+        if (nodeDescriptionOBj.activeSelf == true)
+        nodeDescriptionOBj.SetActive(false);
+
+        _currentlyNode.OnBackMoveMark(playerNodeMark);  
+    }
+
+    public bool GetIsMarkNodeMoveing()
+    {
+        return isMarkNodeMoveing;
+    }
+
+    public void SetIsMarkNodeMoveing(bool isValue)
+    {
+        Debug.Log(isValue);
+        isMarkNodeMoveing = isValue;
+    }
+#endregion
 
 #region Before/after event execution
 

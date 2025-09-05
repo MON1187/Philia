@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ZoomInOutSystem : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class ZoomInOutSystem : MonoBehaviour
 
     public Vector3 zoomingScaleVector = new Vector3();
 
+    public ScrollRect scrollRect;
+    
+    [SerializeField] private GameObject nodeDescriptionOBj;
+
     private void Awake()
     {
         zoomingScaleVector = new Vector3(zoomingScaleValue, zoomingScaleValue, zoomingScaleValue);
@@ -24,6 +29,13 @@ public class ZoomInOutSystem : MonoBehaviour
 
     private void FixedUpdate()
     {
+        bool falge = scrollRect.velocity.magnitude > 0.01f;
+
+        if (falge && !NodeSystem.Instance.GetIsMarkNodeMoveing())
+        {
+            NodeSystem.Instance.OnPlayerMoveBackMark();
+        }
+
         if (!isZooming)
             Zoom();
     }
