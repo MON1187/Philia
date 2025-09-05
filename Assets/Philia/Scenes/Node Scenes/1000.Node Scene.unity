@@ -1169,7 +1169,6 @@ GameObject:
   m_Component:
   - component: {fileID: 670998274}
   - component: {fileID: 670998276}
-  - component: {fileID: 670998277}
   - component: {fileID: 670998279}
   - component: {fileID: 670998278}
   m_Layer: 5
@@ -1212,22 +1211,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
---- !u!114 &670998277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 670998273}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d800dd2555f5cfc4aa676beb726f2c72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  souleContent: {fileID: 1412312941}
-  isZooming: 0
-  zoomingScaleValue: 15
-  zoomingScaleVector: {x: 0, y: 0, z: 0}
 --- !u!114 &670998278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1425,6 +1408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 840304034}
+  - component: {fileID: 840304035}
   m_Layer: 0
   m_Name: Zoom In Out
   m_TagString: Untagged
@@ -1447,6 +1431,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &840304035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840304032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d800dd2555f5cfc4aa676beb726f2c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  souleContent: {fileID: 1412312941}
+  isZooming: 0
+  zoomingScaleValue: 15
+  zoomingScaleVector: {x: 0, y: 0, z: 0}
+  scrollRect: {fileID: 1516054923}
+  nodeDescriptionOBj: {fileID: 479412231}
 --- !u!1 &863122636
 GameObject:
   m_ObjectHideFlags: 0
