@@ -72,7 +72,7 @@ public class NodeSystem : MonoBehaviour
 
             currentNodeFunctionButton.onClick.AddListener(_temporaryStorageNode.LoadEvnetNode);
 
-            currentNodeFunctionButton.onClick.AddListener(isCurSelectNode = true);
+            currentNodeFunctionButton.onClick.AddListener(IsCurSelectNodeTureFunction);
         }
     }
 
@@ -91,10 +91,11 @@ public class NodeSystem : MonoBehaviour
 
     bool isCurSelectNode;
 
-    private void IsCurSelectNode()
+    private void IsCurSelectNodeTureFunction()
     {
         isCurSelectNode = true;
     }
+
     public bool IsCurSelectNode()
     {
         return isCurSelectNode;
