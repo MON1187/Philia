@@ -27,8 +27,6 @@ public class NodeSystem : MonoBehaviour
 
     [SerializeField] private GameObject nodeDescriptionOBj;
 
-    bool nodsIsMoveing = false;
-
     //Store Obj
     [SerializeField] private GameObject storeCanvas;
 
@@ -73,12 +71,9 @@ public class NodeSystem : MonoBehaviour
             currentNodeFunctionButton.onClick.RemoveAllListeners();
 
             currentNodeFunctionButton.onClick.AddListener(_temporaryStorageNode.LoadEvnetNode);
-        }
-    }
 
-    public bool NodeIsMoveing()
-    {
-        return nodsIsMoveing;
+            currentNodeFunctionButton.onClick.AddListener(isCurSelectNode = true);
+        }
     }
 
     public void OnStoreEvent()
@@ -90,7 +85,20 @@ public class NodeSystem : MonoBehaviour
 
 #region Mark Function
 
+    bool nodsIsMoveing = false;
+
     private bool isMarkNodeMoveing;
+
+    bool isCurSelectNode;
+
+    private void IsCurSelectNode()
+    {
+        isCurSelectNode = true;
+    }
+    public bool IsCurSelectNode()
+    {
+        return isCurSelectNode;
+    }
     public void SetPlayerMoveMark(Transform pitch)
     {
         playerNodeMark.position = pitch.position;
@@ -138,9 +146,14 @@ public class NodeSystem : MonoBehaviour
         Debug.Log(isValue);
         isMarkNodeMoveing = isValue;
     }
-#endregion
 
-#region Before/after event execution
+    public bool NodeIsMoveing()
+    {
+        return nodsIsMoveing;
+    }
+    #endregion
+
+    #region Before/after event execution
 
     //After
     public void OnSettingsRunningEvent()

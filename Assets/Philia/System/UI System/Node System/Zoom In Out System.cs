@@ -31,7 +31,7 @@ public class ZoomInOutSystem : MonoBehaviour
     {
         bool falge = scrollRect.velocity.magnitude > 0.01f;
 
-        if (falge && !NodeSystem.Instance.GetIsMarkNodeMoveing())
+        if (falge && !NodeSystem.Instance.GetIsMarkNodeMoveing() && NodeSystem.Instance.IsCurSelectNode())
         {
             NodeSystem.Instance.OnPlayerMoveBackMark();
         }

@@ -147,9 +147,9 @@ public class MoveCharacterSlotSideways : MonoBehaviour
 
     private IEnumerator HideCharacterImage()
     {
-        float time = 1;
+        //float time = 1;
 
-        float curTime = 0;
+        //float curTime = 0;
 
         yield return null;
     }
