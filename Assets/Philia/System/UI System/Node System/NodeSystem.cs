@@ -49,10 +49,10 @@ public class NodeSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Alpha1))
-        {
-            B_NodeDescriptionStartEvent();
-        }
+        //if (Input.GetKeyUp(KeyCode.Alpha1))
+        //{
+        //    B_NodeDescriptionStartEvent();
+        //}
     }
 
 #region Call from node
@@ -71,8 +71,6 @@ public class NodeSystem : MonoBehaviour
             currentNodeFunctionButton.onClick.RemoveAllListeners();
 
             currentNodeFunctionButton.onClick.AddListener(_temporaryStorageNode.LoadEvnetNode);
-
-            currentNodeFunctionButton.onClick.AddListener(IsCurSelectNodeTureFunction);
         }
     }
 
@@ -89,7 +87,7 @@ public class NodeSystem : MonoBehaviour
 
     private bool isMarkNodeMoveing;
 
-    bool isCurSelectNode;
+    public bool isCurSelectNode;
 
     private void IsCurSelectNodeTureFunction()
     {
@@ -131,10 +129,14 @@ public class NodeSystem : MonoBehaviour
 
     public void OnPlayerMoveBackMark()
     {
+        isCurSelectNode = false;
+
         if (nodeDescriptionOBj.activeSelf == true)
         nodeDescriptionOBj.SetActive(false);
 
         _currentlyNode.OnBackMoveMark(playerNodeMark);  
+
+
     }
 
     public bool GetIsMarkNodeMoveing()
@@ -144,7 +146,6 @@ public class NodeSystem : MonoBehaviour
 
     public void SetIsMarkNodeMoveing(bool isValue)
     {
-        Debug.Log(isValue);
         isMarkNodeMoveing = isValue;
     }
 
@@ -179,6 +180,8 @@ public class NodeSystem : MonoBehaviour
     private void ActivateNodeInformation()
     {
         nodeDescriptionOBj.gameObject.SetActive(true);
+
+        IsCurSelectNodeTureFunction();
     }
 #endregion
 

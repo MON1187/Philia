@@ -142,8 +142,6 @@ public class Node : MonoBehaviour
         {
             time += Time.deltaTime;
 
-            Debug.Log(playerMark);
-
             playerMark.position = Vector3.Lerp(playerMark.position, this.transform.position,time);
 
             yield return null;
