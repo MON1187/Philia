@@ -10,6 +10,8 @@ public class PlayerCharacterSlotManager : MonoBehaviour
 
     [SerializeField] private CharacterSelectionSystem characterSelectionSystem;
 
+    private CharacterBattleModelSlotData[] characterBattleModelSlotDatas = new CharacterBattleModelSlotData[4];
+
     private int _location;
 
     private PlayerBattleModelSlot _curModelSlot;
@@ -62,6 +64,15 @@ public class PlayerCharacterSlotManager : MonoBehaviour
 
         _location = slotIndedx;
     }
+
+    #region Ui Functions
+
+    public void IsActiveWhether(CharacterBattleModelSlotData slotData)
+    {
+        slotData.UpdateSlotUseWhether();
+    }
+
+    #endregion
 
     #endregion
 }
