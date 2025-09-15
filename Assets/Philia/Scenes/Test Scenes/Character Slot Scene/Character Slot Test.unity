@@ -312,6 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterSelectionSystem: {fileID: 2038174397}
   characterSpritePlace: {fileID: 1826990549}
+  owner: {fileID: 0}
   index: 0
 --- !u!114 &128101759
 MonoBehaviour:
@@ -422,6 +423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterSelectionSystem: {fileID: 2038174397}
   characterSpritePlace: {fileID: 1308148128}
+  owner: {fileID: 0}
   index: 1
 --- !u!114 &217992367
 MonoBehaviour:
@@ -1120,6 +1122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterSelectionSystem: {fileID: 2038174397}
   characterSpritePlace: {fileID: 612650961}
+  owner: {fileID: 0}
   index: 3
 --- !u!114 &752726865
 MonoBehaviour:
@@ -1189,6 +1192,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character Data Slot
       objectReference: {fileID: 0}
+    - target: {fileID: 3653013102034152758, guid: 05427594e35b5ad45a11fefb6b3a0595, type: 3}
+      propertyPath: owner
+      value: 
+      objectReference: {fileID: 1075761168}
     - target: {fileID: 6025784685977879655, guid: 05427594e35b5ad45a11fefb6b3a0595, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1576,6 +1583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterSelectionSystem: {fileID: 2038174397}
   characterSpritePlace: {fileID: 1204086785}
+  owner: {fileID: 0}
   index: 2
 --- !u!114 &1258554633
 MonoBehaviour:
