@@ -21,19 +21,21 @@ public class CharacterBattleModelSlotData : MonoBehaviour
 
         _button.onClick.AddListener(() => PlayerCharacterSlotManager.Instats.SelectCharacterFinalChoice(owner));
 
-        _button.onClick.AddListener(() => PlayerCharacterSlotManager.Instats.IsActiveWhether(this));
-
         _button.onClick.AddListener(() => UseSlot());
     }
 
     private void UseSlot()
     {
         isUseSlot = true;
+
+        UpdateSlotUseWhether();
     }
 
     private void UnUseSlot()
     {
         isUseSlot = false;
+
+        UpdateSlotUseWhether();
     }
 
     public void UpdateSlotUseWhether()

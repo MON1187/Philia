@@ -39,7 +39,7 @@ public class PlayerCharacterSlotManager : MonoBehaviour
         return battleUnitModels[loaction];
     }
 
-    #region Functions that are performed while selecting a character
+#region Functions that are performed while selecting a character
 
     public void SelectCharacterFinalChoice(BattleUnitModel model)
     {
@@ -67,12 +67,7 @@ public class PlayerCharacterSlotManager : MonoBehaviour
 
     #region Ui Functions
 
-    public void IsActiveWhether(CharacterBattleModelSlotData slotData)
-    {
-        slotData.UpdateSlotUseWhether();
-    }
-
     #endregion
 
-    #endregion
+#endregion
 }
