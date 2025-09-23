@@ -42,6 +42,8 @@ public class BattleUnitModel : MonoBehaviour
 
     [SerializeField] private Sprite _atmosphericSprite;
 
+    [SerializeField] private Sprite _readyBattleSprite;
+
     [SerializeField] private Sprite _battleSprite;
 
     public faction GetFaction() { return _faction; }
@@ -214,6 +216,8 @@ public class BattleUnitModel : MonoBehaviour
     }
 
     public Sprite GetAtmosphericSprite() { return _atmosphericSprite; }
+
+    public Sprite GetReadyBattleSprite() { return _readyBattleSprite; }
 
     public Sprite GetBattleSprite() { return _battleSprite; }
 }

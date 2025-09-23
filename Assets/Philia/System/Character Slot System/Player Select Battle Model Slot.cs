@@ -12,14 +12,29 @@ public class PlayerBattleModelSlot : MonoBehaviour
 
     [SerializeField] private int index = 0;
 
+    [SerializeField] private bool isSlotLastCheckFunction = false;
+
     private void Start()
     {
         Button btn = GetComponent<Button>();
 
-        btn.onClick.RemoveAllListeners();
+        if (!isSlotLastCheckFunction)
+        {
+            btn.onClick.RemoveAllListeners();
 
-        btn.onClick.AddListener(() => B_SelectCharacter(index));
+            btn.onClick.AddListener(() => B_SelectCharacter(index));
+        }
+        else
+        {
+            SetUiInformation();
+        }
     }
+
+    /// <summary>
+    /// First of all, it is a bundle of functions that allow you to edit characters anywhere.
+    /// </summary>
+    /// <param name="location"></param>
+    #region Character Slot Function
 
     public void B_SelectCharacter(int location)
     {
@@ -43,4 +58,23 @@ public class PlayerBattleModelSlot : MonoBehaviour
             characterSpritePlace.sprite = owner.GetAtmosphericSprite();
         }
     }
+
+    #endregion
+
+    /// <summary>
+    /// Perform functions to check the character one last time before battle
+    /// </summary>
+    #region Last check before fight
+
+    public void SetUiInformation()
+    {
+        UpdateUiData();
+    }
+
+    private void UpdateUiData()
+    {
+        characterSpritePlace.sprite = owner.GetReadyBattleSprite();
+    }
+
+    #endregion
 }
