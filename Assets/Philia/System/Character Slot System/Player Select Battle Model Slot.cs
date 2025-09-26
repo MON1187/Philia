@@ -8,7 +8,7 @@ public class PlayerBattleModelSlot : MonoBehaviour
 
     [SerializeField] private Image characterSpritePlace;
 
-    private BattleUnitModel owner;
+    [SerializeField] private BattleUnitModel owner;
 
     [SerializeField] private int index = 0;
 
@@ -24,11 +24,17 @@ public class PlayerBattleModelSlot : MonoBehaviour
 
             btn.onClick.AddListener(() => B_SelectCharacter(index));
         }
-        else
-        {
-            SetUiInformation();
-        }
+        //else
+        //{
+        //    SetUiInformation();
+        //}
     }
+
+    public void UpdateOnwer(BattleUnitModel _owner)
+    {
+        owner = _owner;
+    }
+
 
     /// <summary>
     /// First of all, it is a bundle of functions that allow you to edit characters anywhere.
@@ -47,7 +53,7 @@ public class PlayerBattleModelSlot : MonoBehaviour
 
     public void UpdateSlot(BattleUnitModel _owner)
     {
-        owner = _owner;
+        UpdateOnwer(_owner);
         UpdateSprite();
     }
 
