@@ -6,7 +6,7 @@ public class PlayerCharacterSlotManager : MonoBehaviour
 {
     public static PlayerCharacterSlotManager Instats;
 
-    public BattleUnitModel[] battleUnitModels = new BattleUnitModel[4];
+    public BattleUnitModel[] owner = new BattleUnitModel[4];
 
     [SerializeField] private CharacterSelectionSystem characterSelectionSystem;
 
@@ -31,15 +31,20 @@ public class PlayerCharacterSlotManager : MonoBehaviour
 
     public void BattleUnitModelSaveSlotData(BattleUnitModel battleUnitModel, int location)
     {
-        battleUnitModels[location] = battleUnitModel;
+        owner[location] = battleUnitModel;
     }
 
     public BattleUnitModel LoadSlotUnitModelData(int loaction)
     {
-        return battleUnitModels[loaction];
+        return owner[loaction];
     }
 
-#region Functions that are performed while selecting a character
+    public BattleUnitModel[] LoadAllSlotInitModelData()
+    {
+        return owner;
+    }
+
+    #region Functions that are performed while selecting a character
 
     public void SelectCharacterFinalChoice(BattleUnitModel model)
     {
