@@ -1,21 +1,26 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.InputSystem;
+using UnityEngine.ResourceManagement.AsyncOperations;
+
 public class GameDataManage : MonoBehaviour
 {
-    public static GameDataManage Instance;
+    public static GameDataManage Inst;
 
     string path;
     void Awake()
     {
-        if (Instance == null)
+        if (Inst == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(Instance);
+            Inst = this;
+            DontDestroyOnLoad(Inst);
         }
         else
         {
-            Destroy(Instance);
+            Destroy(Inst);
         }
     }
 
@@ -56,6 +61,19 @@ public class GameDataManage : MonoBehaviour
         }
 
         DataUpdateJsonFileArray(values, _fileName);
+    }
+
+    public async void LoadResourceDataSprite(string key, UnityEngine.UI.Image target)
+    {
+        var handle = Addressables.LoadAssetAsync<Sprite>(key);
+        await handle.Task;
+
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            target.sprite = handle.Result;
+        }
+
+        Addressables.Release(handle);
     }
 }
 

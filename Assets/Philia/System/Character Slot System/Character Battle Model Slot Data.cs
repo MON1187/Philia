@@ -11,8 +11,6 @@ public class CharacterBattleModelSlotData : MonoBehaviour
 
     public bool isUseSlot;
 
-
-
     private void Start()
     {
         _button = GetComponent<Button>();

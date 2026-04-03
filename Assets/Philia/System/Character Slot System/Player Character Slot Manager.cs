@@ -29,7 +29,7 @@ public class PlayerCharacterSlotManager : MonoBehaviour
         }
     }
 
-    public void BattleUnitModelSaveSlotData(BattleUnitModel battleUnitModel, int location)
+    public void BattleUnitModelSaveSlotData(BattleUnitModel battleUnitModel, int location = 0)
     {
         owner[location] = battleUnitModel;
     }

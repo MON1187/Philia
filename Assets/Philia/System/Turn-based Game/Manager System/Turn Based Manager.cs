@@ -288,10 +288,7 @@ public class TurnBasedManager : MonoBehaviour
 
     private void AutoPlayEnemyTurn()
     {
-        for (int i = 0; i < enemyBattleUnitList.Count; i++)
-        {
-            enemyBattleUnitList[i]._basicSkill.UseSkillReady();
-        }
+        
     }
 
 #endregion

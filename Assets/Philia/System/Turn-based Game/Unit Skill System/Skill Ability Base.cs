@@ -16,35 +16,22 @@ public class SkillAbilityBase : MonoBehaviour
 
     bool _isReadySkillMotion = false;
 
-    public bool _isPassiveSkill = false;
-
-    protected int _coolTime = 0;
-
-    int _curTime = 0;
-
     public int dmgRate;
 
     public string explanation;
 
     protected float productionTime;
 
-#region Call void
- 
+    [SerializeField] private CardType cardType;
+
+    public CardType OnGetType() { return cardType; }
+
     public void OnUseSkill()
     {
-        if (_isPassiveSkill)
+        if(owner.currentActionPoint < _cost)
         {
-            UsePassiveAbilitySkill();
             return;
         }
-
-        if(owner.currentActionPoint < _cost || _curTime < _coolTime)
-        {
-            _curTime += 1;
-            return;
-        }
-
-        _curTime = _coolTime;
 
         owner.currentActionPoint  -= _cost;
 
@@ -77,8 +64,6 @@ public class SkillAbilityBase : MonoBehaviour
         owner.SetUseSkillData(this, productionTime);
     }
 
-#endregion
-
     protected virtual void UseSkillEffectAbilityBase()
     {
 
@@ -110,11 +95,6 @@ public class SkillAbilityBase : MonoBehaviour
     }
 
     public virtual void SetPassiveAbilitySkill()
-    {
-
-    }
-
-    protected virtual void UsePassiveAbilitySkill()
     {
 
     }

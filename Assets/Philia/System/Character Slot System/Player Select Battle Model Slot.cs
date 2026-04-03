@@ -61,7 +61,7 @@ public class PlayerBattleModelSlot : MonoBehaviour
     {
         if (owner != null)
         {
-            characterSpritePlace.sprite = owner.GetAtmosphericSprite();
+            //characterSpritePlace.sprite = owner.GetAtmosphericSprite();
         }
     }
 
@@ -79,7 +79,7 @@ public class PlayerBattleModelSlot : MonoBehaviour
 
     private void UpdateUiData()
     {
-        characterSpritePlace.sprite = owner.GetReadyBattleSprite();
+        //characterSpritePlace.sprite = owner.GetReadyBattleSprite();
     }
 
     #endregion

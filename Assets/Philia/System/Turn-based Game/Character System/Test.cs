@@ -31,9 +31,9 @@ public class Test : MonoBehaviour
         _dataList.Add(DataTest(10002, 4, 2, 2));
         _dataList.Add(DataTest(10003, 6, 1, 1));
 
-        GameDataManage.Instance.DataUpdateJsonFileArray(_dataList, modelData_Player_path + text);
+        GameDataManage.Inst.DataUpdateJsonFileArray(_dataList, modelData_Player_path + text);
         data = DataTest(11001, 7, 3, 1);
-        GameDataManage.Instance.DataUpdateJsonFile(data, modelData_Enemy_path + text);
+        GameDataManage.Inst.DataUpdateJsonFile(data, modelData_Enemy_path + text);
     }
 
     private DataTest DataTest(int id, int hp, int breakHp, int playMaxPoint)
