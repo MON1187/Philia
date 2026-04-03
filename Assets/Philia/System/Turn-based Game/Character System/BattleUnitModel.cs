@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,14 +23,6 @@ public class BattleUnitModel : MonoBehaviour
 
     public int breakLife;
 
-    public SkillAbilityBase _basicSkill;        //Normal Attack Base Skill
-
-    public SkillAbilityBase _secondarySkill;    //Buf Skill
-
-    public SkillAbilityBase _ultimateSkill;     //Ultimate Skill
-
-    public SkillAbilityBase _passiveSkill;      //Passive Skill
-
     private UseSkillData useSkillData;
 
     public int _velocity;
@@ -38,17 +31,13 @@ public class BattleUnitModel : MonoBehaviour
 
     private BounsState _bounsState = new BounsState();
 
-    public ItemDataAbilityBase[] itemImplement;
-
-    [SerializeField] private Sprite _atmosphericSprite;
-
-    [SerializeField] private Sprite _readyBattleSprite;
-
-    [SerializeField] private Sprite _battleSprite;
-
     public faction GetFaction() { return _faction; }
 
     public BattleUnitData GetUnitData() { return _unitData; }
+
+    private List<SkillAbilityBase> skillList = new List<SkillAbilityBase>();
+
+    private List<SkillAbilityBase> passiveList = new List<SkillAbilityBase>();
 
     public int GetSpeed()
     {
@@ -111,21 +100,8 @@ public class BattleUnitModel : MonoBehaviour
 
         //Set Skill Owner
         {
-            if (_basicSkill != null)
-                _basicSkill.SetOwnerBattleUnitModel(this);
 
-            if (_secondarySkill != null)
-                _secondarySkill.SetOwnerBattleUnitModel(this);
-
-            if (_ultimateSkill != null)
-                _ultimateSkill.SetOwnerBattleUnitModel(this);
-
-            if(_passiveSkill != null)
-                _passiveSkill.SetOwnerBattleUnitModel(this);
         }
-
-        if (_passiveSkill != null)
-            _passiveSkill.SetPassiveAbilitySkill();
 
         ApplyStateBouns(_bounsState);
     }
@@ -162,14 +138,7 @@ public class BattleUnitModel : MonoBehaviour
     {
         int randomIndex = UnityEngine.Random.Range(0, size);
 
-        if (_basicSkill != null)
-            _basicSkill.SetTargetBattleUnitModel(target[randomIndex]);
 
-        if (_secondarySkill != null)
-            _secondarySkill.SetTargetBattleUnitModel(target[randomIndex]);
-
-        if (_ultimateSkill != null)
-            _ultimateSkill.SetTargetBattleUnitModel(target[randomIndex]);
     }
 
     public void RecoverHealth(int value)
@@ -214,12 +183,6 @@ public class BattleUnitModel : MonoBehaviour
         _bounsState.str += state.str;
         _bounsState.point += state.point;
     }
-
-    public Sprite GetAtmosphericSprite() { return _atmosphericSprite; }
-
-    public Sprite GetReadyBattleSprite() { return _readyBattleSprite; }
-
-    public Sprite GetBattleSprite() { return _battleSprite; }
 }
 
 
