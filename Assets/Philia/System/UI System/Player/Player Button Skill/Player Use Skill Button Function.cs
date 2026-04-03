@@ -28,7 +28,7 @@ public class PlayerUseSkillButtonFunction : MonoBehaviour
     {
         //SetSkillIcon(owner._basicSkill.icon, owner._secondarySkill.icon, owner._ultimateSkill.icon, owner._passiveSkill.icon);
 
-        SetSkillEvent(owner._basicSkill, owner._secondarySkill, owner._ultimateSkill);
+        //SetSkillEvent(owner._basicSkill, owner._secondarySkill, owner._ultimateSkill);
     }
 
     public void SetSkillIcon(Sprite normalSkillIcon, Sprite secondarySkillIcon, Sprite ultimateSkillIcon, Sprite passiveSkillIcon)
