@@ -31,19 +31,6 @@ public class BattleUnitModel : MonoBehaviour
 
     private BounsState _bounsState = new BounsState();
 
-    public faction GetFaction() { return _faction; }
-
-    public BattleUnitData GetUnitData() { return _unitData; }
-
-    private List<SkillAbilityBase> skillList = new List<SkillAbilityBase>();
-
-    private List<SkillAbilityBase> passiveList = new List<SkillAbilityBase>();
-
-    public int GetSpeed()
-    {
-        return _unitData.st_Speed + _velocity;
-    }
-
     public UseSkillData GetUseSkillData()
     {
         return useSkillData;
@@ -86,12 +73,12 @@ public class BattleUnitModel : MonoBehaviour
         target.TakeDamage(dmg);
     }
 
-    public int GetForce()
+    public void OnBattleStart()
     {
-        return _unitData.st_Strong + _bounsState.str;
+
     }
 
-    public void firstStartRound()
+    public void OnTurnFirstStart()
     {
         hp = _unitData.st_MaxHealth;
         breakLife = _unitData.st_MaxBreakLife;
@@ -106,7 +93,7 @@ public class BattleUnitModel : MonoBehaviour
         ApplyStateBouns(_bounsState);
     }
 
-    public virtual void StartRound()
+    public void OnTurnStart()
     {
         isReady = false;
 
@@ -167,7 +154,7 @@ public class BattleUnitModel : MonoBehaviour
         useSkillData.playSkillDirectingTime = time;
     }
 
-    protected virtual IEnumerator DeathDirectingMotion()
+    public IEnumerator DeathDirectingMotion()
     {
         yield return null;
 
@@ -183,6 +170,20 @@ public class BattleUnitModel : MonoBehaviour
         _bounsState.str += state.str;
         _bounsState.point += state.point;
     }
+
+    public int GetSpeed()
+    {
+        return _unitData.st_Speed + _velocity;
+    }
+
+    public int GetForce()
+    {
+        return _unitData.st_Strong + _bounsState.str;
+    }
+
+    public faction GetFaction() { return _faction; }
+
+    public BattleUnitData GetUnitData() { return _unitData; }
 }
 
 
