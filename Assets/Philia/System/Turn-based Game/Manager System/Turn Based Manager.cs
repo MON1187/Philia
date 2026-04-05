@@ -216,52 +216,8 @@ public class TurnBasedManager : MonoBehaviour
         {
             return;
         }
-
-        StartCoroutine(PlayerTurn());
     }
-
-    IEnumerator PlayerTurn()
-    {
-        //foreach (BattleUnitModel owner in playerBattleUnitList)
-        //{
-        //    owner.StartRound();
-        //}
-
-        UnitStartRound(playerBattleUnitList);
-
-        PlayerUseSkillButtonFunction.Instats.SetSkillUIAll(playerBattleUnitList[0]);
-
-        bool isActionEnd = false;
-
-        //턴 끝났는지 체크
-        while (!isActionEnd)
-        {
-            bool isAllAction = true;
-
-            foreach (BattleUnitModel owner in playerBattleUnitList)
-            {
-                if (!owner.isReady)
-                {
-                    isAllAction = false;
-                    //Debug.Log("! 아직 준비 안됨");
-                    break;
-                }
-            }
-            
-            if (isAllAction)
-            {
-                isActionEnd = true;
-                //Debug.Log("준비 완료");
-                break;
-            }
-
-            yield return new WaitForSeconds(.25f);
-        }
-
-        //배틀 시작되는 연출
-
-        PlayBattleUnitSkillAll();
-    }
+    //구조 변경 중
 
     #endregion
 
