@@ -8,6 +8,8 @@ public class PassiveAbilityBase : MonoBehaviour
 
     public virtual void OnBattleStart() { }
 
+    public virtual void OnTurnFirstStart() { }
+
     public virtual void OnTurnStart() { }
 
     public virtual void OnTurnEnd() { }
@@ -26,6 +28,11 @@ public class PassiveAbilityBase : MonoBehaviour
     }
 
     public virtual int MaxPlayPointAdder()
+    {
+        return 0;
+    }
+
+    public virtual int RecoverPlayPoint()
     {
         return 0;
     }

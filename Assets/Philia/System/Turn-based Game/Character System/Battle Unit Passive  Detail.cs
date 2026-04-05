@@ -18,6 +18,18 @@ public class BattleUnitPassiveDetail : MonoBehaviour
         catch { }
     }
 
+    public void OnTurnFirstStart()
+    {
+        try
+        {
+            foreach(PassiveAbilityBase ab in passiveList)
+            {
+                ab.OnTurnFirstStart();
+            }
+        }
+        catch {}
+    }
+
     public void OnTurnStart()
     {
         try
@@ -52,5 +64,29 @@ public class BattleUnitPassiveDetail : MonoBehaviour
             }
         }
         catch { }
+    }
+
+    public int OnActionPointAdder()
+    {
+        int value = 0;
+
+        foreach(PassiveAbilityBase ab in passiveList)
+        {
+            value += ab.MaxPlayPointAdder();
+        }
+
+        return value;
+    }
+
+    public int OnRecoverPoint()
+    {
+        int value = 0;
+
+        foreach (PassiveAbilityBase ab in passiveList)
+        {
+            value += ab.RecoverPlayPoint();
+        }
+
+        return value;
     }
 }

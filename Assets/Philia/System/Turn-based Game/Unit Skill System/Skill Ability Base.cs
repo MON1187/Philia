@@ -59,8 +59,6 @@ public class SkillAbilityBase : MonoBehaviour
 
     public void UseSkillReady()
     {
-        owner.isReady = true;
-
         owner.SetUseSkillData(this, productionTime);
     }
 

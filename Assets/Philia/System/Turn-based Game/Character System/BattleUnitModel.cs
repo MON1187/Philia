@@ -17,7 +17,9 @@ public class BattleUnitModel : MonoBehaviour
 
     [SerializeField] private BattleUnitData _unitData;
 
-    public int currentActionPoint;
+    public int maxActionPoint;
+
+    public int currentActionPoint = 0;
 
     public int hp;
 
@@ -27,9 +29,10 @@ public class BattleUnitModel : MonoBehaviour
 
     public int _velocity;
 
-    public bool isReady = false;
-
     private BounsState _bounsState = new BounsState();
+
+    private BattleUnitPassiveDetail passiveDetail;
+
 
     public UseSkillData GetUseSkillData()
     {
@@ -75,57 +78,38 @@ public class BattleUnitModel : MonoBehaviour
 
     public void OnBattleStart()
     {
-
+        hp = _unitData.st_MaxHealth;
+        breakLife = _unitData.st_MaxBreakLife;
+        maxActionPoint = _unitData.st_MaxActionPoint + passiveDetail.OnActionPointAdder();
+        currentActionPoint += _unitData.st_StartActionPoint;
     }
 
     public void OnTurnFirstStart()
     {
-        hp = _unitData.st_MaxHealth;
-        breakLife = _unitData.st_MaxBreakLife;
-        currentActionPoint = _unitData.st_StartActionPoint;
-
-
-        //Set Skill Owner
-        {
-
-        }
-
-        ApplyStateBouns(_bounsState);
+        passiveDetail.OnTurnFirstStart();
     }
 
     public void OnTurnStart()
     {
-        isReady = false;
+        maxActionPoint = _unitData.st_MaxActionPoint + passiveDetail.OnActionPointAdder();
 
-        currentActionPoint += 1 + _bounsState.point;
+        currentActionPoint += _unitData.st_StartActionPoint + passiveDetail.OnRecoverPoint();
 
         if (currentActionPoint > _unitData.st_MaxActionPoint)
         {
             currentActionPoint = _unitData.st_MaxActionPoint;
         }
 
-        //Select Attack Target
-        {
-            BattleUnitModel[] target;
+        ApplyStateBouns(_bounsState);
 
-            if (_faction == faction.Player)
-            {
-                target = TurnBasedManager.Instats.enemyBattleUnitList.ToArray();
-                SetTargeting(target,target.Length);
-            }
-            else if (_faction == faction.Enemy)
-            {
-                target = TurnBasedManager.Instats.playerBattleUnitList.ToArray();
-                SetTargeting(target, target.Length);
-            }
-        }
+        passiveDetail.OnTurnStart();
     }
 
-    private void SetTargeting(BattleUnitModel[] target, int size)
+    public void OnTurnEnd()
     {
-        int randomIndex = UnityEngine.Random.Range(0, size);
+        ResetStateBouns();
 
-
+        passiveDetail.OnTurnEnd();
     }
 
     public void RecoverHealth(int value)
@@ -146,6 +130,11 @@ public class BattleUnitModel : MonoBehaviour
         {
             breakLife = _unitData.st_MaxBreakLife;
         }
+    }
+
+    public void RecoverPlayPoint(int value)
+    {
+        currentActionPoint += value;
     }
 
     public void SetUseSkillData(SkillAbilityBase useSkill, float time)
@@ -169,6 +158,16 @@ public class BattleUnitModel : MonoBehaviour
         _bounsState.breakRate += state.breakRate;
         _bounsState.str += state.str;
         _bounsState.point += state.point;
+    }
+
+    private void ResetStateBouns()
+    {
+        _bounsState.dmg = 0;
+        _bounsState.breakDmg = 0;
+        _bounsState.dmgRate = 0;
+        _bounsState.breakRate = 0;
+        _bounsState.str = 0;
+        _bounsState.point = 0;
     }
 
     public int GetSpeed()
