@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 public enum CardType
@@ -11,16 +13,15 @@ public enum CardType
 
 public class CardSlot : MonoBehaviour
 {
-    private SkillAbilityBase useSkill;
+    private CardAbilityBase useSkill;
 
-    private Image myIcon;
+    [SerializeField] private Image cardTypeIcon;
 
-    private void Awake()
-    {
-        myIcon = GetComponent<Image>();
-    }
+    [SerializeField] private Image cardImage;
 
-    public void OnCheckCardType()
+    public AsyncOperationHandle<GameObject> handle;
+
+    public async void OnCheckCardType()
     {
         if (useSkill != null)
         {
@@ -29,15 +30,15 @@ public class CardSlot : MonoBehaviour
             switch (cardType)
             {
                 case CardType.attack:
-                    GameDataManage.Inst.LoadResourceDataSprite("Attack Icon", myIcon);
+                    await GameDataManage.Inst.LoadResourceDataSprite("Attack Icon");
                     break;
 
                 case CardType.deffance:
-                    GameDataManage.Inst.LoadResourceDataSprite("Defance Icon", myIcon);
+                    await GameDataManage.Inst.LoadResourceDataSprite("Defance Icon");
                     break;
 
                 case CardType.action:
-                    GameDataManage.Inst.LoadResourceDataSprite("Action Icon", myIcon);
+                    await GameDataManage.Inst.LoadResourceDataSprite("Action Icon");
                     break;
             }
         }

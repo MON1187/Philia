@@ -31,8 +31,9 @@ public class BattleUnitModel : MonoBehaviour
 
     private BounsState _bounsState = new BounsState();
 
-    private BattleUnitPassiveDetail passiveDetail;
+    public BattleUnitPassiveDetail passiveDetail;
 
+    public BattleUnitCardDetail cardDetail;
 
     public UseSkillData GetUseSkillData()
     {
@@ -78,6 +79,19 @@ public class BattleUnitModel : MonoBehaviour
 
     public void OnBattleStart()
     {
+        GameSetting();
+
+        StatusSetting();
+    }
+
+    private void GameSetting()
+    {
+        passiveDetail = GetComponent<BattleUnitPassiveDetail>();
+        cardDetail = GetComponent<BattleUnitCardDetail>();
+    }
+
+    private void StatusSetting()
+    {
         hp = _unitData.st_MaxHealth;
         breakLife = _unitData.st_MaxBreakLife;
         maxActionPoint = _unitData.st_MaxActionPoint + passiveDetail.OnActionPointAdder();
@@ -87,6 +101,8 @@ public class BattleUnitModel : MonoBehaviour
     public void OnTurnFirstStart()
     {
         passiveDetail.OnTurnFirstStart();
+
+        OnTurnStart();
     }
 
     public void OnTurnStart()
@@ -95,14 +111,14 @@ public class BattleUnitModel : MonoBehaviour
 
         currentActionPoint += _unitData.st_StartActionPoint + passiveDetail.OnRecoverPoint();
 
+        passiveDetail.OnTurnStart();
+
         if (currentActionPoint > _unitData.st_MaxActionPoint)
         {
             currentActionPoint = _unitData.st_MaxActionPoint;
         }
 
         ApplyStateBouns(_bounsState);
-
-        passiveDetail.OnTurnStart();
     }
 
     public void OnTurnEnd()
@@ -137,7 +153,7 @@ public class BattleUnitModel : MonoBehaviour
         currentActionPoint += value;
     }
 
-    public void SetUseSkillData(SkillAbilityBase useSkill, float time)
+    public void SetUseSkillData(CardAbilityBase useSkill, float time)
     {
         useSkillData.useSkill = useSkill;
         useSkillData.playSkillDirectingTime = time;
@@ -237,6 +253,6 @@ public class BounsState
 
 public struct UseSkillData
 {
-    public SkillAbilityBase useSkill;
+    public CardAbilityBase useSkill;
     public float playSkillDirectingTime;
 }
