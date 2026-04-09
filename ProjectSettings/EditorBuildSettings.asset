@@ -12,5 +12,6 @@ EditorBuildSettings:
     path: Assets/Philia/Scenes/Node Scenes/1000.Node Scene.unity
     guid: 546c5d78fc879a640a6cad388ea4118d
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: cc1bdf59b7135bc409eae132babe841e, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
