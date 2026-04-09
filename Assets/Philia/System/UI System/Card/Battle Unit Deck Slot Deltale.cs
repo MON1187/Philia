@@ -1,20 +1,30 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class BattleUnitDeckSlotDeltale : MonoBehaviour
 {
     [SerializeField] private Transform createCardTransform;
 
-    private List<CardSlot> slots = new List<CardSlot>();
+    public List<AsyncOperationHandle<GameObject>> slots = new List<AsyncOperationHandle<GameObject>>();
 
-    public void SetSlot(int slotIndex = 0)
+    public async void SetSlot(int slotIndex = 0)
     {
-        int defaultSlot = 1;
+        print("Start Create Slot");
 
-        for (int i = 0; i < defaultSlot + slotIndex; i++)
+        //default Value
+        slotIndex += 1;
+
+        print(slotIndex);
+
+        for (int i = 0; i < slotIndex; i++)
         {
-            slots.Add(GameDataManage.Inst.CreateCardSlolt(default, createCardTransform));
-            //slots.Add(Instantiate(slotObj, transform.position, Quaternion.identity).GetComponent<CardSlot>());
+#if UNITY_EDITOR
+            print("Cretea Slot Number : " + i);
+#endif
+            var handle = await GameDataManage.Inst.CreateCardSlot(createCardTransform);
+            slots.Add(handle);
         }
     }
 
@@ -22,10 +32,9 @@ public class BattleUnitDeckSlotDeltale : MonoBehaviour
     {
         foreach(var item in slots)
         {
-            Destroy(item.gameObject);
+            GameDataManage.Inst.ReleaseInstanceResource<GameObject>(item);     
         }
 
-        slots.RemoveAt(slots.Count);
-
+        slots.Clear();
     }
 }

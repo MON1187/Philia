@@ -5,6 +5,7 @@ public class BattleUnitPassiveDetail : MonoBehaviour
 {
     public List<PassiveAbilityBase> passiveList = new List<PassiveAbilityBase>();
 
+    public BattleUnitDeckSlotDeltale battleUnitDeckDeltale;
 
     public void OnBattleStart()
     {
@@ -34,6 +35,22 @@ public class BattleUnitPassiveDetail : MonoBehaviour
     {
         try
         {
+            {   //Create Slot
+                int value = 0;
+                foreach (PassiveAbilityBase ab in passiveList)
+                {
+                    print(ab);
+
+                    value += ab.UseSkillSlotAdder();
+                }
+
+                battleUnitDeckDeltale.SetSlot(value);
+            }
+        }
+        catch {}
+
+        try
+        {
             foreach (PassiveAbilityBase ab in passiveList)
             {
                 ab.OnTurnStart();
@@ -46,6 +63,9 @@ public class BattleUnitPassiveDetail : MonoBehaviour
     {
         try
         {
+            {   //Release Slot
+                battleUnitDeckDeltale.OnEndTurn();
+            }
             foreach (PassiveAbilityBase ab in passiveList)
             {
                 ab.OnTurnEnd();

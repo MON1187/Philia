@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEditor.Playables;
 using UnityEngine;
 
-public class SkillAbilityBase : MonoBehaviour
+public class CardAbilityBase : MonoBehaviour
 {
     protected Sprite icon;
 

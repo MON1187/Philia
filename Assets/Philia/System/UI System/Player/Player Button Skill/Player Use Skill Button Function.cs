@@ -53,7 +53,7 @@ public class PlayerUseSkillButtonFunction : MonoBehaviour
         }
     }
 
-    public void SetSkillEvent(SkillAbilityBase basic, SkillAbilityBase secondary, SkillAbilityBase ultimate)
+    public void SetSkillEvent(CardAbilityBase basic, CardAbilityBase secondary, CardAbilityBase ultimate)
     {
         _basic.onClick.RemoveAllListeners();
         _basic.onClick.AddListener(() => basic.UseSkillReady());
