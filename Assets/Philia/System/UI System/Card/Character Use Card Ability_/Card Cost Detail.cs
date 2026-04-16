@@ -5,9 +5,9 @@ public class CardCostDetail : MonoBehaviour
 {
     public TextMeshProUGUI costText;
 
-    public int origonCost;
+    public int origonCost = 0;
 
-    public int cost;
+    public int currentCost = 0;
 
     [Header("Transition Effect")]
     public Color defualtCostColorEffect;
@@ -19,22 +19,38 @@ public class CardCostDetail : MonoBehaviour
     public void SetCost(int cost)
     {
         origonCost = cost;
+
+        this.currentCost = cost;
+
+        CostInformationUpdateText();
     }
 
     public void ApplyCost(int cost)
     {
-        this.cost += cost;
+        this.currentCost += cost;
+
+        SetCostEffect();
     }
 
     public void LowerCost(int cost)
     {
-        this.cost += cost;
+        this.currentCost -= cost;
 
+        if(currentCost < 0)
+        {
+            currentCost = 0;
+        }
+
+        SetCostEffect();
     }
+
+    #region
 
     public void SetCostEffect()
     {
-        if(cost == origonCost)
+        CostInformationUpdateText();
+
+        if (currentCost == origonCost)
         {
             costText.color = defualtCostColorEffect;
 
@@ -48,7 +64,7 @@ public class CardCostDetail : MonoBehaviour
 
     private void SetCardCostInformation()
     {
-        if (cost > origonCost) { 
+        if (currentCost > origonCost) { 
             ApplyCostEffect();
         }
         else
@@ -65,5 +81,12 @@ public class CardCostDetail : MonoBehaviour
     private void LowerCostEffect()
     {
         costText.color = downCosColorEffect;
+    }
+
+    #endregion
+
+    private void CostInformationUpdateText()
+    {
+        costText.text = currentCost.ToString();
     }
 }

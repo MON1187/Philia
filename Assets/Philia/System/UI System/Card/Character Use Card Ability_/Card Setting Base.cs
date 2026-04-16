@@ -4,10 +4,12 @@ using TMPro;
 
 public class CardSettingBase : MonoBehaviour
 {
-    [Header("")]
-    CardTypeDetail cardType;
+    [Header("[ Data ]")]
+    public CardData data;
+    
+    public CardTypeDetail cardType;
 
-    CardAbilityBase cardAbility;
+    public CardAbilityBase cardAbility;
 
     [Header("[ Model ]")]
     public BattleUnitModel owner;
@@ -22,11 +24,27 @@ public class CardSettingBase : MonoBehaviour
     [Header("[ Resource ]")]
     public Image cardImage;
 
-    public Image cardTypeIcon;
+    public TextMeshProUGUI nameText;
+
+    public CardTypeInformationDetail cardTypeDetail;
 
     public CardValueDetail cardValueDetail;
 
-    public CardCostDetail cradCostDetail;
+    public CardCostDetail cardCostDetail;
 
+    public void CardSetting()
+    {
+        cardImage.sprite = data.cardImage;
 
+        nameText.text = data.cardName.ToString();
+
+        cardType = data.cardType;
+
+        cardCostDetail.SetCost(data.cardCost);
+    }
+
+    public void UpdateCardBaseData()
+    {
+        cost = cardCostDetail.currentCost;
+    }
 }
