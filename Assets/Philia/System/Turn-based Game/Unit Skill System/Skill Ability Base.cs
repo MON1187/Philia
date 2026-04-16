@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class CardAbilityBase : MonoBehaviour
 {
-    protected Sprite icon;
+    //protected Sprite icon;
 
     protected BattleUnitModel owner;
 
     BattleUnitModel _target;
-
-    int _cost;
-
-    int _oringCost;
 
     bool _isReadySkillMotion = false;
 
@@ -22,19 +18,12 @@ public class CardAbilityBase : MonoBehaviour
 
     protected float productionTime;
 
-    [SerializeField] private CardType cardType;
+    [SerializeField] private CardTypeDetail cardType;
 
-    public CardType OnGetType() { return cardType; }
+    public CardTypeDetail OnGetType() { return cardType; }
 
     public void OnUseSkill()
     {
-        if(owner.currentActionPoint < _cost)
-        {
-            return;
-        }
-
-        owner.currentActionPoint  -= _cost;
-
         //사전 기술 사용 준비 연출
         {
             if (_isReadySkillMotion)
@@ -95,15 +84,5 @@ public class CardAbilityBase : MonoBehaviour
     public virtual void SetPassiveAbilitySkill()
     {
 
-    }
-
-    public int Cost()
-    {
-        return _cost;
-    }
-
-    public void AddCost(int value = 0)
-    {
-        _cost += value;
     }
 }
