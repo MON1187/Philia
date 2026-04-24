@@ -8,8 +8,6 @@ public class PassiveAbilityBase : MonoBehaviour
 
     public virtual void OnBattleStart() { }
 
-    public virtual void OnTurnFirstStart() { }
-
     public virtual void OnTurnStart() { }
 
     public virtual void OnTurnEnd() { }

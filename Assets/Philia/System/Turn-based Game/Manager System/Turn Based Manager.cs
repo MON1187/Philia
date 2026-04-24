@@ -64,7 +64,7 @@ public class TurnBasedManager : MonoBehaviour
                     if (characterEnemySlot.LoadSlotUnitModelData(i) != null)
                     {
                         enemyBattleUnitList.Add(characterEnemySlot.LoadSlotUnitModelData(i));
-                        enemyBattleUnitList[i].OnTurnFirstStart();
+                        enemyBattleUnitList[i].OnBattleStart();
 
                         //Find the fastest speed and decide which team will start first.
                         {

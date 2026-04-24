@@ -19,18 +19,6 @@ public class BattleUnitPassiveDetail : MonoBehaviour
         catch { }
     }
 
-    public void OnTurnFirstStart()
-    {
-        try
-        {
-            foreach(PassiveAbilityBase ab in passiveList)
-            {
-                ab.OnTurnFirstStart();
-            }
-        }
-        catch {}
-    }
-
     public void OnTurnStart()
     {
         try

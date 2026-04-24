@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class BattleUnitCardDetail : MonoBehaviour
 {
-    public  List<CardData> cardList;
-
     private CardData curUseCard;
 
     private BattleUnitModel owner;

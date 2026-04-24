@@ -29,7 +29,7 @@ public class BattleUnitModel : MonoBehaviour
 
     private UseSkillData useSkillData;
 
-    public int _velocity;
+    public int speed;
 
     private BounsState _bounsState = new BounsState();
 
@@ -144,13 +144,6 @@ public class BattleUnitModel : MonoBehaviour
         currentActionPoint += _unitData.st_StartActionPoint;
     }
 
-    public void OnTurnFirstStart()
-    {
-        passiveDetail.OnTurnFirstStart();
-
-        OnTurnStart();
-    }
-
     public void OnTurnStart()
     {
         maxActionPoint = _unitData.st_MaxActionPoint + passiveDetail.OnActionPointAdder();
@@ -234,7 +227,7 @@ public class BattleUnitModel : MonoBehaviour
 
     public int GetSpeed()
     {
-        return _unitData.st_Speed + _velocity;
+        return _unitData.st_Speed + speed;
     }
 
     public int GetForce()
