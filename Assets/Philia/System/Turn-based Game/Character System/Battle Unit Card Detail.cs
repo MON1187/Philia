@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class BattleUnitCardDetail : MonoBehaviour
 {
-    public  List<CardAbilityBase> cardList;
+    public  List<CardData> cardList;
 
-    private CardAbilityBase curUseCard;
+    private CardData curUseCard;
 
     private BattleUnitModel owner;
 
@@ -14,12 +14,12 @@ public class BattleUnitCardDetail : MonoBehaviour
         owner = model;
     }
 
-    public void CurrentUseCard(CardAbilityBase useCard)
+    public void CurrentUseCard(CardData useCard)
     {
         curUseCard = useCard;
     }
 
-    public CardAbilityBase CurrentUseCard()
+    public CardData CurrentUseCard()
     {
         return curUseCard;
     }

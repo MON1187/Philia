@@ -12,7 +12,10 @@ public class CardData : ScriptableObject
 
     public bool disposable;
 
+    public int priority;
+
     [Header("Resource")]
     public Sprite cardImage;
 
+    public CardAbilityBase card;
 }

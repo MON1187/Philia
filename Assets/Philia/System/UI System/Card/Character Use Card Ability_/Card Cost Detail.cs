@@ -29,7 +29,7 @@ public class CardCostDetail : MonoBehaviour
     {
         this.currentCost += cost;
 
-        SetCostEffect();
+        UpdateCostEffect();
     }
 
     public void LowerCost(int cost)
@@ -41,12 +41,12 @@ public class CardCostDetail : MonoBehaviour
             currentCost = 0;
         }
 
-        SetCostEffect();
+        UpdateCostEffect();
     }
 
     #region
 
-    public void SetCostEffect()
+    public void UpdateCostEffect()
     {
         CostInformationUpdateText();
 
