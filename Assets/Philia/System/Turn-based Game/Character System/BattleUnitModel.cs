@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.SceneManagement;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,6 +37,10 @@ public class BattleUnitModel : MonoBehaviour
     public BattleUnitPassiveDetail passiveDetail;
 
     public BattleUnitCardDetail cardDetail;
+
+    public BattleUnitDeckSlotDeltale slotDeltale;
+
+    BattleAiEnemyModel aiModel = null;
 
     public UseSkillData GetUseSkillData()
     {
@@ -132,7 +137,14 @@ public class BattleUnitModel : MonoBehaviour
    
         if(_faction == faction.Enemy)
         {
-            this.gameObject.AddComponent<BattleAiEnemyModel>();
+            aiModel = this.gameObject.AddComponent<BattleAiEnemyModel>();
+            aiModel.AISetting(this);
+        }
+
+        {
+            hp = _unitData.st_MaxHealth;
+            breakLife = _unitData.st_MaxBreakLife;
+            speed = _unitData.st_Speed;
         }
     }
 
@@ -158,6 +170,11 @@ public class BattleUnitModel : MonoBehaviour
         }
 
         ApplyStateBouns(_bounsState);
+
+        if(_faction == faction.Enemy)
+        {
+            PlayAI();
+        }
     }
 
     public void OnTurnEnd()
@@ -165,6 +182,19 @@ public class BattleUnitModel : MonoBehaviour
         ResetStateBouns();
 
         passiveDetail.OnTurnEnd();
+
+        if (_faction == faction.Enemy)
+            EndAI();
+    }
+
+    private void PlayAI()
+    {
+        aiModel.PlayAIFunctionModel();
+    }
+
+    private void EndAI()
+    {
+
     }
 
     public void RecoverHealth(int value)

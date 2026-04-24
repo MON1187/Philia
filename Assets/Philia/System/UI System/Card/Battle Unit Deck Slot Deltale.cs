@@ -9,6 +9,8 @@ public class BattleUnitDeckSlotDeltale : MonoBehaviour
 
     public List<AsyncOperationHandle<GameObject>> slots = new List<AsyncOperationHandle<GameObject>>();
 
+    public CardSlotManger cardDeck;
+
     public async void SetSlot(int slotIndex = 0)
     {
         print("Start Create Slot");
@@ -26,6 +28,8 @@ public class BattleUnitDeckSlotDeltale : MonoBehaviour
             var handle = await GameDataManage.Inst.CreateCardSlot(createCardTransform);
             slots.Add(handle);
         }
+
+        cardDeck.SetCardSlots();
     }
 
     public void OnEndTurn()

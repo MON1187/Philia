@@ -41,10 +41,16 @@ public class CardSettingBase : MonoBehaviour
         cardType = data.cardType;
 
         cardCostDetail.SetCost(data.cardCost);
+
+        cardValueDetail.SetOwner(owner);
+
+        UpdateCardValueData();
     }
 
-    public void UpdateCardBaseData()
+    public void UpdateCardValueData()
     {
-        cost = cardCostDetail.currentCost;
+        cardValueDetail.UpdateValue();
+
+        cardCostDetail.UpdateCostEffect();
     }
 }
