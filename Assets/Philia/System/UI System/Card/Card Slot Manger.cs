@@ -5,12 +5,6 @@ public class CardSlotManger : MonoBehaviour
 {
     public List<CardSlot> slots;
 
-    public List<CardData> cardDeckHand;
-
-    public List<CardData> discardedCard;
-
-    public List<CardData> cardConfigurationList;
-
     public void SetCardSlots()
     {
         Debug.Log("Set Card Slots");

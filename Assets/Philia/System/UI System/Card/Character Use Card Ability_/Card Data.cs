@@ -16,6 +16,4 @@ public class CardData : ScriptableObject
 
     [Header("Resource")]
     public Sprite cardImage;
-
-    public CardAbilityBase card;
 }
